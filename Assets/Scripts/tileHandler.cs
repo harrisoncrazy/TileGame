@@ -16,6 +16,7 @@ public class tileHandler : MonoBehaviour {
 	public bool sandSeed = false;
 	public bool snowSeed = false;
 	public bool oceanSeed = false;
+	public bool mountainSeed = false;
 	public bool adjacentSand = false;
 	public bool adjacentSnow = false;
 	public bool adjacentOcean = false;
@@ -25,7 +26,7 @@ public class tileHandler : MonoBehaviour {
 	public Vector2 gridPosition;
 
 	public SpriteRenderer sr;
-	private bool stopSpread = false;
+	public bool stopSpread = false;
 
 	public bool newSpriteSet = false;
 
@@ -82,6 +83,16 @@ public class tileHandler : MonoBehaviour {
 				col.gameObject.GetComponent<tileHandler> ().adjacentOcean = true;
 				col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.oceanTile;
 				col.gameObject.GetComponent<tileHandler> ().tileType = "Ocean";
+			}
+
+			if (mountainSeed == true) {
+				if (stopSpread == false) {
+					if (col.gameObject.GetComponent<tileHandler> ().mountainSeed != true) {
+						col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.oceanTile;
+						col.gameObject.GetComponent<tileHandler> ().mountainSeed = true;
+						stopSpread = true;
+					}
+				}
 			}
 
 			if (stopSpread == false) {//if the current tile has not stopped spreading

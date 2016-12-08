@@ -400,7 +400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2fae6ba39fe17048914b91cd6a3d564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
 --- !u!61 &626695712
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -529,8 +528,8 @@ MonoBehaviour:
   oceanTile: {fileID: 21300000, guid: 6422e71b3ff777f44bcd6fac4d26ad31, type: 3}
   genStepOneDone: 0
   genStepTwoDone: 0
-  mapSizeX: 150
-  mapSizeY: 75
+  mapSizeX: 100
+  mapSizeY: 50
 --- !u!4 &1017993285
 Transform:
   m_ObjectHideFlags: 0

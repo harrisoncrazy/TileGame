@@ -46,6 +46,12 @@ public class generationManager : MonoBehaviour {
 
 	public Sprite oceanTile;
 
+	public Sprite mountainTile;
+
+	//river generation values
+	private Vector2 point1;
+	private Vector2 point2;
+
 	private float generationTimerOne = 1.0f;
 	private float generationTimerTwo = 1.0f;
 	public bool genStepOneDone = false;
@@ -66,6 +72,7 @@ public class generationManager : MonoBehaviour {
 	void Start () {
 		Instance = this;
 		generateMap ();
+
 		sandRand = Random.Range (2, 4);
 		for (int i = 0; i <= sandRand; i++) {
 			Debug.Log ("Sand seed planted.");
@@ -103,9 +110,9 @@ public class generationManager : MonoBehaviour {
 					if (map [i] [j].tileType == "Sand") {//Iterating thru the list of tiles, finding those marked as default sand and selecting a random tile for them to be
 						if (map [i] [j].newSpriteSet == false) {
 							int rand = Random.Range (1, 101);
-							if (rand <= 45) {
+							if (rand <= 65) {
 								map [i] [j].newSpriteSet = true;
-							} else if (rand >= 45 && rand <= 70) {
+							} else if (rand >= 65 && rand <= 70) {
 								int rand2 = Random.Range (1, 2);
 								if (rand2 == 1) {
 									map [i] [j].sr.sprite = lightCactusSand1;
@@ -276,5 +283,14 @@ public class generationManager : MonoBehaviour {
 		Debug.Log (yPlacer);
 		map [xPlacer] [yPlacer].oceanSeed = true;//placing the sand
 		map [xPlacer] [yPlacer].sr.sprite = oceanTile;
+	}
+		
+	void generateMountain() {
+		int xPlacer1 = Random.Range (0, mapSizeX);//Generating random place to put the sand seed
+		int yPlacer1 = Random.Range (0, mapSizeY);
+		point1 = new Vector2 (xPlacer1, xPlacer1);
+		map [xPlacer1] [yPlacer1].mountainSeed = true;//placing the sand
+		map [xPlacer1] [yPlacer1].sr.sprite = mountainTile;
+		map [xPlacer1] [yPlacer1].tileType = "MountainSeed";
 	}
 }
