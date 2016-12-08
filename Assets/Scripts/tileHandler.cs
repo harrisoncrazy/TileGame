@@ -88,7 +88,7 @@ public class tileHandler : MonoBehaviour {
 			if (mountainSeed == true) {
 				if (stopSpread == false) {
 					if (col.gameObject.GetComponent<tileHandler> ().mountainSeed != true) {
-						col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.oceanTile;
+						col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.mountainTile;
 						col.gameObject.GetComponent<tileHandler> ().mountainSeed = true;
 						stopSpread = true;
 					}

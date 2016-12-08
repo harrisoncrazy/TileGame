@@ -526,6 +526,7 @@ MonoBehaviour:
   LightForestStone: {fileID: 21300000, guid: 23a31c0f155e9e94a83e8334d911fc7e, type: 3}
   HeavyForestStone: {fileID: 21300000, guid: 5d8ef99f868a2884fb839896e25afd96, type: 3}
   oceanTile: {fileID: 21300000, guid: 6422e71b3ff777f44bcd6fac4d26ad31, type: 3}
+  mountainTile: {fileID: 21300000, guid: 1a5ea41ebd4ed2340acf2f5da4106900, type: 3}
   genStepOneDone: 0
   genStepTwoDone: 0
   mapSizeX: 100

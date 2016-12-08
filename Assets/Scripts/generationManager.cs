@@ -59,6 +59,7 @@ public class generationManager : MonoBehaviour {
 	private int sandRand;
 	private int snowRand;
 	private int oceanRand;
+	private int mountainRand;
 
 	//Map Size ints, and floats for generation
 	public int mapSizeX = 11;
@@ -72,7 +73,6 @@ public class generationManager : MonoBehaviour {
 	void Start () {
 		Instance = this;
 		generateMap ();
-
 		sandRand = Random.Range (2, 4);
 		for (int i = 0; i <= sandRand; i++) {
 			Debug.Log ("Sand seed planted.");
@@ -255,6 +255,11 @@ public class generationManager : MonoBehaviour {
 
 			}
 			map.Add(row);
+		}
+		mountainRand = Random.Range (8, 15);
+		for (int i = 0; i <= mountainRand; i++) {
+			Debug.Log ("Mountain seed planted.");
+			generateMountain();
 		}
 	}
 
