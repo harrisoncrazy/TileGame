@@ -46,7 +46,7 @@ public class generationManager : MonoBehaviour {
 
 	public Sprite oceanTile;
 
-	private float generationTimerOne = 3.0f;
+	private float generationTimerOne = 1.0f;
 	private float generationTimerTwo = 1.0f;
 	public bool genStepOneDone = false;
 	public bool genStepTwoDone = false;
@@ -66,17 +66,17 @@ public class generationManager : MonoBehaviour {
 	void Start () {
 		Instance = this;
 		generateMap ();
-		sandRand = Random.Range (1, 2);
+		sandRand = Random.Range (2, 4);
 		for (int i = 0; i <= sandRand; i++) {
 			Debug.Log ("Sand seed planted.");
 			generateSand ();
 		}
-		snowRand = Random.Range (1, 2);
+		snowRand = Random.Range (1, 5);
 		for (int i = 0; i <= snowRand; i++) {
 			Debug.Log ("Snow seed planted.");
 			generateSnow ();
 		}
-		oceanRand = Random.Range (2, 5);
+		oceanRand = Random.Range (3, 6);
 		for (int i = 0; i <= oceanRand; i++) {
 			Debug.Log ("Ocean seed planted.");
 			generateOcean ();

@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Zoom : MonoBehaviour {
 
+	public static Zoom Instance;
+
 	public float zoomSpeed = 1;
 	public float targetOrtho;
 	public float smoothSpeed = 2.0f;
@@ -10,7 +12,7 @@ public class Zoom : MonoBehaviour {
 	public float maxOrtho = 20.0f;
 
 	void Start() {
-		targetOrtho = maxOrtho;
+		Instance = this;
 	}
 
 	void Update () {
