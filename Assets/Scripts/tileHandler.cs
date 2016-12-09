@@ -17,6 +17,7 @@ public class tileHandler : MonoBehaviour {
 	public bool snowSeed = false;
 	public bool oceanSeed = false;
 	public bool mountainSeed = false;
+	public bool riverSeed = false;
 	public bool adjacentSand = false;
 	public bool adjacentSnow = false;
 	public bool adjacentOcean = false;
@@ -43,6 +44,20 @@ public class tileHandler : MonoBehaviour {
 			selected = false;
 			tileOutlineSprite.SetActive (false);
 			enabled = false;
+		}
+
+		if (riverSeed == true) {
+			if (stopSpread == false) {
+				RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.right);
+
+				if (hit) {
+					hit.transform.gameObject.GetComponent<tileHandler> ().riverSeed = true;
+					hit.transform.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.oceanTile;
+					hit.transform.gameObject.GetComponent<tileHandler> ().tileType = "River";
+				}
+
+				stopSpread = true;
+			}
 		}
 
 		if (shutdown == false) { //shutting down all tile colliders at game start
@@ -90,6 +105,7 @@ public class tileHandler : MonoBehaviour {
 					if (col.gameObject.GetComponent<tileHandler> ().mountainSeed != true) {
 						col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.mountainTile;
 						col.gameObject.GetComponent<tileHandler> ().mountainSeed = true;
+						col.gameObject.GetComponent<tileHandler> ().tileType = "Mountain";
 						stopSpread = true;
 					}
 				}
@@ -136,6 +152,13 @@ public class tileHandler : MonoBehaviour {
 
 				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Snow") {
 					if (tileType != "Snow") {
+						sr.sprite = generationManager.Instance.defaultStone;
+						tileType = "Stone";
+					}
+				}
+
+				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Mountain") {
+					if (tileType != "Mountain") {
 						sr.sprite = generationManager.Instance.defaultStone;
 						tileType = "Stone";
 					}

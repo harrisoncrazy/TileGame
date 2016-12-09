@@ -60,6 +60,7 @@ public class generationManager : MonoBehaviour {
 	private int snowRand;
 	private int oceanRand;
 	private int mountainRand;
+	private int riverRand;
 
 	//Map Size ints, and floats for generation
 	public int mapSizeX = 11;
@@ -68,6 +69,10 @@ public class generationManager : MonoBehaviour {
 	private float jDiff = 0;
 
 	public List <List<tileHandler>> map = new List<List<tileHandler>>(); 
+
+	//Perlin Noise Generation
+	private float scale = 3f;
+
 
 	// Use this for initialization
 	void Start () {
@@ -88,19 +93,36 @@ public class generationManager : MonoBehaviour {
 			Debug.Log ("Ocean seed planted.");
 			generateOcean ();
 		}
+		mountainRand = Random.Range (8, 15);
+		for (int i = 0; i <= mountainRand; i++) {
+			Debug.Log ("Mountain seed planted.");
+			generateMountain();
+		}
+
+		riverRand = Random.Range (8, 15);
+		//for (int i = 0; i <= riverRand; i++) {
+			Debug.Log ("River seed planted.");
+			//generateRiver();
+		//}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		generationTimerOne -= Time.deltaTime;//timer for step one
-		if (generationTimerOne <= 0) {
-			genStepOneDone = true;
+		if (genStepOneDone != true) {
+			generationTimerOne -= Time.deltaTime;//timer for step one
+			if (generationTimerOne <= 0) {
+				genStepOneDone = true;
+				Debug.Log ("GENERATION STEP ONE DONE");
+			}
 		}
 
-		if (genStepOneDone == true) { //timer for step 2
-			generationTimerTwo -= Time.deltaTime;
-			if (generationTimerTwo <= 0) {
-				genStepTwoDone = true;
+		if (genStepTwoDone != true) {
+			if (genStepOneDone == true) { //timer for step 2
+				generationTimerTwo -= Time.deltaTime;
+				if (generationTimerTwo <= 0) {
+					genStepTwoDone = true;
+					Debug.Log ("GENERATION STEP TWO DONE");
+				}
 			}
 		}
 
@@ -219,6 +241,16 @@ public class generationManager : MonoBehaviour {
 				}
 				jDiff = j + (.03f * j); //Offsetting the Y
 				int rand = Random.Range (1, 101);
+				/*
+				float seed = Random.Range (1, 10);
+				float height = Mathf.PerlinNoise (seed + i/scale, seed + j/scale);
+				 if (height >= .3 && height <= 0.4f) {
+					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
+					tile.gridPosition = new Vector2 (i, j);
+					tile.tileType = "Ocean";
+					tile.sr.sprite = oceanTile;
+					row.Add (tile);
+				} else {*/
 				if (rand <= 35) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
 					tile.gridPosition = new Vector2 (i, j);
@@ -231,7 +263,7 @@ public class generationManager : MonoBehaviour {
 					tile.tileType = "Light Forest";
 					tile.sr.sprite = LightForestTile;
 					row.Add (tile);
-				} else if (rand >= 60 && rand <= 90 ) {
+				} else if (rand >= 60 && rand <= 90) {
 					tileHandler tile = ((GameObject)Instantiate (DefaultTile, new Vector3 (iDiff, jDiff, 0), Quaternion.Euler (new Vector3 ()))).GetComponent<tileHandler> ();
 					tile.gridPosition = new Vector2 (i, j);
 					tile.tileType = "Grassland";
@@ -252,14 +284,8 @@ public class generationManager : MonoBehaviour {
 					tile.sr.sprite = HeavyRockTile;
 					row.Add (tile);
 				}
-
 			}
 			map.Add(row);
-		}
-		mountainRand = Random.Range (8, 15);
-		for (int i = 0; i <= mountainRand; i++) {
-			Debug.Log ("Mountain seed planted.");
-			generateMountain();
 		}
 	}
 
@@ -293,9 +319,16 @@ public class generationManager : MonoBehaviour {
 	void generateMountain() {
 		int xPlacer1 = Random.Range (0, mapSizeX);//Generating random place to put the sand seed
 		int yPlacer1 = Random.Range (0, mapSizeY);
-		point1 = new Vector2 (xPlacer1, xPlacer1);
 		map [xPlacer1] [yPlacer1].mountainSeed = true;//placing the sand
 		map [xPlacer1] [yPlacer1].sr.sprite = mountainTile;
-		map [xPlacer1] [yPlacer1].tileType = "MountainSeed";
+		map [xPlacer1] [yPlacer1].tileType = "Mountain";
+	}
+
+	void generateRiver() {
+		int xPlacer1 = Random.Range (0, mapSizeX);//Generating random place to put the sand seed
+		int yPlacer1 = Random.Range (0, mapSizeY);
+		map [xPlacer1] [yPlacer1].riverSeed = true;//placing the sand
+		map [xPlacer1] [yPlacer1].sr.sprite = oceanTile;
+		map [xPlacer1] [yPlacer1].tileType = "River";
 	}
 }
