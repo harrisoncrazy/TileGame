@@ -4,12 +4,14 @@ using System.Collections;
 public class tileHandler : MonoBehaviour {
 
 	public GameObject tileOutlineSprite; //gameobject of highlight Sprite
+	public GameObject tileBlacked;
+	public GameObject tileGreyed;
 
-	public PolygonCollider2D colliderMain;
+	public CircleCollider2D colliderMain;
 	public bool shutdown = false;
 
 	//Tile selection values
-	static private Transform trSelect = null;
+	private Transform trSelect = null;
 	private bool selected = false;
 
 	//Generation type values
@@ -17,7 +19,6 @@ public class tileHandler : MonoBehaviour {
 	public bool snowSeed = false;
 	public bool oceanSeed = false;
 	public bool mountainSeed = false;
-	public bool riverSeed = false;
 	public bool adjacentSand = false;
 	public bool adjacentSnow = false;
 	public bool adjacentOcean = false;
@@ -25,47 +26,61 @@ public class tileHandler : MonoBehaviour {
 	//Tile info values
 	public string tileType;
 	public Vector2 gridPosition;
-
 	public SpriteRenderer sr;
 	public bool stopSpread = false;
-
 	public bool newSpriteSet = false;
+
+	//Tile seen values
+	public bool discovered = false;
+	public bool inSight = false;
 
 	// Use this for initialization
 	void Start () {
 		sr = GetComponent<SpriteRenderer> ();
-		colliderMain = gameObject.GetComponent<PolygonCollider2D> ();
+		colliderMain = gameObject.GetComponent<CircleCollider2D> ();
+		tileGreyed.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, .75f);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
+		if (GameManager.Instance.selectedTile != null) {
+			trSelect = GameManager.Instance.selectedTile;
+		}
 		//Swapping selected tile
-		if (selected && transform != trSelect) { //If the currently selected tile and the transform do not equal the new selection, deselect this tile
+		if (selected == true && this.transform != trSelect) { //If the currently selected tile and the transform do not equal the new selection, deselect this tile
 			selected = false;
 			tileOutlineSprite.SetActive (false);
-			enabled = false;
 		}
 
-		if (riverSeed == true) {
-			if (stopSpread == false) {
-				RaycastHit2D hit = Physics2D.Raycast (transform.position, transform.right);
-
-				if (hit) {
-					hit.transform.gameObject.GetComponent<tileHandler> ().riverSeed = true;
-					hit.transform.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.oceanTile;
-					hit.transform.gameObject.GetComponent<tileHandler> ().tileType = "River";
-				}
-
-				stopSpread = true;
+		if (shutdown == true) {
+			if (baseHandler.Instance.toggleCityUI == true) {
+				selected = false;
+				tileOutlineSprite.SetActive (false);
 			}
 		}
 
 		if (shutdown == false) { //shutting down all tile colliders at game start
 			if (generationManager.Instance.genStepTwoDone) {
-				colliderMain.enabled = false;
+				StartCoroutine ("shutOffColliders");
 				shutdown = true;
 			}
 		}
+
+		if (discovered == false) { //If not discovered yet
+			tileBlacked.SetActive (true);
+		} else if (discovered == true) {
+			tileBlacked.SetActive (false);
+		}
+		if (inSight == false && discovered == true) {//If not seen currently
+			tileGreyed.SetActive (true);
+		} else if (inSight == true) {
+			tileGreyed.SetActive (false);
+		}
+	}
+
+	IEnumerator shutOffColliders() {
+		yield return new WaitForSeconds (2.0f);
+		colliderMain.enabled = false;
 	}
 
 	public void OnMouseDown() {
@@ -75,12 +90,19 @@ public class tileHandler : MonoBehaviour {
 			tileOutlineSprite.SetActive (false);
 		} else {
 			selected = true;
-			trSelect = transform;
+			GameManager.Instance.selectedTile = this.transform;
 			tileOutlineSprite.SetActive (true);
 		}
 	}
 
 	void OnTriggerStay2D (Collider2D col) {
+		if (col.gameObject.tag == "viewCollider") {
+			discovered = true;
+		}
+		if (col.gameObject.tag == "sightCollider") {
+			inSight = true;
+		}
+
 		if (generationManager.Instance.genStepOneDone != true) {
 			if (sandSeed == true) { //if the current tile is the sand seed
 				col.gameObject.GetComponent<tileHandler> ().adjacentSand = true;
@@ -143,21 +165,21 @@ public class tileHandler : MonoBehaviour {
 				}
 			}
 			if (col.gameObject.tag != "Player") {
-				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Sand") {
+				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Sand") {//setting the adjacent tile to sand
 					if (tileType != "Sand") {
 						sr.sprite = generationManager.Instance.defaultDirt;
 						tileType = "Dirt";
 					}
 				}
 
-				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Snow") {
+				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Snow") {//setting the adjacent tile to snow
 					if (tileType != "Snow") {
 						sr.sprite = generationManager.Instance.defaultStone;
 						tileType = "Stone";
 					}
 				}
 
-				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Mountain") {
+				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Mountain") {//setting the adjacent tile to mountain
 					if (tileType != "Mountain") {
 						sr.sprite = generationManager.Instance.defaultStone;
 						tileType = "Stone";
@@ -167,11 +189,11 @@ public class tileHandler : MonoBehaviour {
 		}
 	}
 
-	void OnBecameVisible() {
+	void OnBecameVisible() {//enabling collider when in frame of the camera
 		colliderMain.enabled = true;
 	}
 
-	void OnBecameInvisible() {
+	void OnBecameInvisible() { //disabling collider when out of frame of the camera
 		colliderMain.enabled = false;
 	}
 }

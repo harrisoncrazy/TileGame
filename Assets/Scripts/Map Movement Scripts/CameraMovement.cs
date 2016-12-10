@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraMovement : MonoBehaviour {
 
-	private float speed = 4f;
+	private float speed = 6f;
 
 	private bool movedStart = false;
 
@@ -15,31 +15,46 @@ public class CameraMovement : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKeyDown (KeyCode.LeftShift)) {
-			speed = 8f;
-		}
+		if (generationManager.Instance.genStepTwoDone == true) {
+			if (baseHandler.Instance.toggleCityUI == true) {//moving camera to city if city selected
+				Vector2 pos = GameObject.Find ("homeBase").transform.position;
+				transform.position = pos;
+			}
+		
 
-		if (Input.GetKeyUp (KeyCode.LeftShift)) {
-			speed = 4f;
-		}
+			if (baseHandler.Instance.toggleCityUI == false) { //stopping movement if city selected
+				if (Input.GetKeyDown (KeyCode.LeftShift)) {
+					speed = 12f;
+				}
 
-		if (Input.GetKey (KeyCode.D)) {
-			transform.Translate (Vector2.right * speed * Time.deltaTime); 
-		}
-		if (Input.GetKey (KeyCode.A)) {
-			transform.Translate (-Vector2.right * speed * Time.deltaTime);   
-		}
-		if (Input.GetKey (KeyCode.W)) {
-			transform.Translate (Vector2.up * speed * Time.deltaTime);
-		}
-		if (Input.GetKey (KeyCode.S)) {
-			transform.Translate (-Vector2.up * speed * Time.deltaTime);  
+				if (Input.GetKeyUp (KeyCode.LeftShift)) {
+					speed = 6f;
+				}
+
+				if (Input.GetKey (KeyCode.D)) {
+					transform.Translate (Vector2.right * speed * Time.deltaTime); 
+				}
+				if (Input.GetKey (KeyCode.A)) {
+					transform.Translate (-Vector2.right * speed * Time.deltaTime);   
+				}
+				if (Input.GetKey (KeyCode.W)) {
+					transform.Translate (Vector2.up * speed * Time.deltaTime);
+				}
+				if (Input.GetKey (KeyCode.S)) {
+					transform.Translate (-Vector2.up * speed * Time.deltaTime);  
+				}
+			}
 		}
 	}
 
 	IEnumerator startCam(){
 		yield return new WaitForSeconds (1.0f);
-		GameObject.Find ("CameraMovement").transform.position = new Vector2 (generationManager.Instance.mapSizeX/2, generationManager.Instance.mapSizeY/2);
+		Vector2 outPos = transform.position;
+		Vector2 pos = GameObject.Find ("homeBase").transform.position;
+		GameObject.Find ("CameraMovement").transform.position = pos;
+		GameObject.Find ("CameraMovement").transform.position = outPos;
+		yield return new WaitForSeconds (2.0f);
+		GameObject.Find ("CameraMovement").transform.position = pos;
 		movedStart = true;
 	}
 }
