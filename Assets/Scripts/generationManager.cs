@@ -129,22 +129,17 @@ public class generationManager : MonoBehaviour {
 					if (map [i] [j].tileType == "Grassland") {
 						int rand = Random.Range (1, 101);
 						if (homePlaced == false) {
-							if (rand <= 2) {
-								Vector3 pos = map [i] [j].transform.position;
-								Destroy (map [i] [j].gameObject);
-								baseHandler home = ((GameObject)Instantiate (homeBase, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<baseHandler> ();
-								GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
-								home.name = "homeBase";
-								objToDelete = homeCollider;
-								StartCoroutine ("destroyThing");
-								homePlaced = true;
-							}
-						}
-						if (homeWaterPlaced == false) {
-							if (rand <= 5) {
-								map [i] [j].sr.sprite = oceanTile;
-								map [i] [j].tileType = "Ocean";
-								homeWaterPlaced = true;
+							if (i >= 5 && j >= 5) {
+								if (rand <= 2) {
+									Vector3 pos = map [i] [j].transform.position;
+									Destroy (map [i] [j].gameObject);
+									baseHandler home = ((GameObject)Instantiate (homeBase, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<baseHandler> ();
+									GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
+									home.name = "homeBase";
+									objToDelete = homeCollider;
+									StartCoroutine ("destroyThing");
+									homePlaced = true;
+								}
 							}
 						}
 					}
