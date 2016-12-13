@@ -34,8 +34,6 @@ public class expeditionHandler : MonoBehaviour {
 
 	public int ExpeditionWaterStore;
 
-	private float timer = 0.25f;
-
 	// Use this for initialization
 	void Start () {
 		Instance = this;
@@ -47,7 +45,7 @@ public class expeditionHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (isSelectedMode == true) {
-
+			
 		}
 
 		if (NewTurn == true) { //moving to the next turn
