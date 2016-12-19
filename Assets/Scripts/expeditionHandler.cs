@@ -11,11 +11,16 @@ public class expeditionHandler : MonoBehaviour {
 	public bool NewTurn;
 
 	public bool isSelectedMode = false;
+	public bool isMovingMode = false;
+	public bool hasMoved = false;
 
 	public string[] expeditionPeople;//names of people in expedition
 	public int expeditionPeopleNum;
 	private int foodStorageCapacity;
 
+	public bool isMoving = false;
+	public Vector3 targetPos;
+	private float movedelaytimer = 0.5f;
 
 	public struct ExpeditionToolType { //storing different Tools and thier efficencies
 		public bool isAxe;
@@ -45,7 +50,17 @@ public class expeditionHandler : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (isSelectedMode == true) {
-			
+			if (isMovingMode == true) {
+				if (isMoving == true) {
+					transform.position = Vector3.MoveTowards (transform.position, targetPos, 4f * Time.deltaTime);
+					if (transform.position == targetPos) {
+						isMoving = false;
+						isMovingMode = false;
+						hasMoved = true;
+						UIManager.Instance.expMoveButton.interactable = false;
+					}
+				}
+			}
 		}
 
 		if (NewTurn == true) { //moving to the next turn
@@ -76,22 +91,26 @@ public class expeditionHandler : MonoBehaviour {
 
 
 			ExpeditionWaterStore -= expeditionPeopleNum * 4; //subtracting needed water
+			hasMoved = false;
 
 			NewTurn = false; //ending the turn swap
 		}
 	}
 
 	void OnMouseDown() {
-		if (isSelectedMode == false) {
-			isSelectedMode = true;
-			expOutline.SetActive (true);
-			UIManager.Instance.expeditionPanel.SetActive (true);
-			baseHandler.Instance.cityUIScreen.SetActive (false);
-		} else if (isSelectedMode == true) {
-			isSelectedMode = false;
-			expOutline.SetActive (false);
-			UIManager.Instance.expeditionPanel.SetActive (false);
-			baseHandler.Instance.cityUIScreen.SetActive (false);
+		if (isMovingMode == false) {
+			if (isSelectedMode == false) {
+				isSelectedMode = true;
+				expOutline.SetActive (true);
+				UIManager.Instance.expeditionPanel.SetActive (true);
+				baseHandler.Instance.cityUIScreen.SetActive (false);
+			} else if (isSelectedMode == true) {
+				isSelectedMode = false;
+				expOutline.SetActive (false);
+				movedelaytimer = 0.5f;
+				UIManager.Instance.expeditionPanel.SetActive (false);
+				baseHandler.Instance.cityUIScreen.SetActive (false);
+			}
 		}
 	}
 }

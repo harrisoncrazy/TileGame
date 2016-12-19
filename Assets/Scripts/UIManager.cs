@@ -38,10 +38,12 @@ public class UIManager : MonoBehaviour {
 	public Text expPerson4Text;
 	public GameObject expeditionPanel;
 	public InputField expeditionWaterInput;
-	private bool waterError = false;
-	public Text waterErrorText;
+	private bool waterError = true;
+	public GameObject waterErrorText;
+	private int waterValToTake;
 	public Text expeditionFoodTextResourcePanel;
 	public Text expeditionWaterTextResourcePanel;
+	public Button expMoveButton;
 
 	// Use this for initialization
 	void Start () {
@@ -77,6 +79,12 @@ public class UIManager : MonoBehaviour {
 		}
 
 		if (arrangingExpedition == true) {
+			if (waterError == true) {
+				waterErrorText.SetActive (true);
+			} else if (waterError == false) {
+				waterErrorText.SetActive (false);
+			}
+
 			expPerson1.gameObject.SetActive (true);
 			expPerson2.gameObject.SetActive (true);
 			expPerson3.gameObject.SetActive (true);
@@ -100,14 +108,6 @@ public class UIManager : MonoBehaviour {
 			expPerson2Text.text = GameManager.Instance.playerPeople [1];
 			expPerson3Text.text = GameManager.Instance.playerPeople [2];
 			expPerson4Text.text = GameManager.Instance.playerPeople [3];
-			int waterValToTake = int.Parse (expeditionWaterInput.text);
-			if (waterValToTake < GameManager.Instance.waterStore) {
-				waterError = true;
-				waterErrorText.enabled = true;
-			} else if (waterValToTake >= GameManager.Instance.waterStore) {
-				waterError = false;
-				waterErrorText.enabled = false;
-			}
 
 			if (finalizingExpediton == true) {
 				expeditionHandler expParty = ((GameObject)Instantiate (expeditonPrefab, GameObject.Find("homeBase").transform.position, GameObject.Find("homeBase").transform.rotation)).GetComponent<expeditionHandler> ();//instanciating the expidition
@@ -134,11 +134,23 @@ public class UIManager : MonoBehaviour {
 				finalizingExpediton = false;
 				arrangingExpedition = false;
 				expeditionPanelBase.SetActive (false);
-
 				expParty.ExpeditionWaterStore = waterValToTake;
+				GameManager.Instance.waterStore -= waterValToTake;
 				GameManager.Instance.playerPeopleNum -= expParty.expeditionPeopleNum;
 				expeditionEnabled = true;
+				waterError = true;
 			}
+		}
+	}
+
+	public void LockInput(InputField input) { //ending water input
+		waterValToTake = int.Parse (expeditionWaterInput.text);
+		Debug.Log (waterValToTake);
+		if (waterValToTake > GameManager.Instance.waterStore) {
+			waterError = true;
+		}
+		if (waterValToTake < GameManager.Instance.waterStore) {
+			waterError = false;
 		}
 	}
 
@@ -207,6 +219,14 @@ public class UIManager : MonoBehaviour {
 		expeditionWaterTextResourcePanel.text = "" +  totalWaterVal;
 	}
 
+	public void SetExpeditionMoveMode() { 
+		if (expeditionHandler.Instance.isMovingMode == false) {
+			expeditionHandler.Instance.isMovingMode = true;
+		} else if (expeditionHandler.Instance.isMovingMode == true) {
+			expeditionHandler.Instance.isMovingMode = false;
+		}
+	}
+
 
 	public void NextTurn() {
 		GameManager.Instance.NewTurn = true;
@@ -226,6 +246,9 @@ public class UIManager : MonoBehaviour {
 	public void FinalizeExpedition() {
 		if (waterError != true) {
 			finalizingExpediton = true;
+		} else {
+			Debug.Log ("Not Enough Water");
+			
 		}
 	}
 }

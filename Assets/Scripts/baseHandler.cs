@@ -22,19 +22,42 @@ public class baseHandler : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
-		if (toggleCityUI == false) {
-			cityUIScreen.SetActive (true);
-			toggleCityUI = true;
-			UIManager.Instance.expeditionPanel.SetActive (false);
-			if (UIManager.Instance.expeditionEnabled == true) {
-				expeditionHandler.Instance.expOutline.SetActive (false);
+		if (UIManager.Instance.expeditionEnabled == false) {
+			if (toggleCityUI == false) {
+				cityUIScreen.SetActive (true);
+				toggleCityUI = true;
+				UIManager.Instance.expeditionPanel.SetActive (false);
+				if (UIManager.Instance.expeditionEnabled == true) {
+					expeditionHandler.Instance.expOutline.SetActive (false);
+					expeditionHandler.Instance.isSelectedMode = false;
+				}
+			} else if (toggleCityUI == true) {
+				cityUIScreen.SetActive (false);
+				toggleCityUI = false;
+				UIManager.Instance.expeditionPanel.SetActive (false);
+				if (UIManager.Instance.expeditionEnabled == true) {
+					expeditionHandler.Instance.expOutline.SetActive (false);
+				}
 			}
-		} else if (toggleCityUI == true) {
-			cityUIScreen.SetActive (false);
-			toggleCityUI = false;
-			UIManager.Instance.expeditionPanel.SetActive (false);
-			if (UIManager.Instance.expeditionEnabled == true) {
-				expeditionHandler.Instance.expOutline.SetActive (false);
+		}
+		if (UIManager.Instance.expeditionEnabled == true) {
+			if (expeditionHandler.Instance.isMovingMode != true) {
+				if (toggleCityUI == false) {
+					cityUIScreen.SetActive (true);
+					toggleCityUI = true;
+					UIManager.Instance.expeditionPanel.SetActive (false);
+					if (UIManager.Instance.expeditionEnabled == true) {
+						expeditionHandler.Instance.expOutline.SetActive (false);
+						expeditionHandler.Instance.isSelectedMode = false;
+					}
+				} else if (toggleCityUI == true) {
+					cityUIScreen.SetActive (false);
+					toggleCityUI = false;
+					UIManager.Instance.expeditionPanel.SetActive (false);
+					if (UIManager.Instance.expeditionEnabled == true) {
+						expeditionHandler.Instance.expOutline.SetActive (false);
+					}
+				}
 			}
 		}
 	}
