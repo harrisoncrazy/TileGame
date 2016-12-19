@@ -85,9 +85,13 @@ public class expeditionHandler : MonoBehaviour {
 		if (isSelectedMode == false) {
 			isSelectedMode = true;
 			expOutline.SetActive (true);
+			UIManager.Instance.expeditionPanel.SetActive (true);
+			baseHandler.Instance.cityUIScreen.SetActive (false);
 		} else if (isSelectedMode == true) {
 			isSelectedMode = false;
 			expOutline.SetActive (false);
+			UIManager.Instance.expeditionPanel.SetActive (false);
+			baseHandler.Instance.cityUIScreen.SetActive (false);
 		}
 	}
 }

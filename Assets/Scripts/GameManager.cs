@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
 	public int waterStore;
 
 	public string[] playerPeople; //different people names
-	private int playerPeopleNum = 1;
+	public int playerPeopleNum = 1;
 
 	public FoodData[] storedFood;
 	public ToolType[] storedTools;
