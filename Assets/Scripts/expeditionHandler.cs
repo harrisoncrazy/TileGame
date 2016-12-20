@@ -1,26 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class expeditionHandler : MonoBehaviour {
 
 	public static expeditionHandler Instance;
 
+	public GameObject colliderGen;//collider prefab for sight
+	private GameObject objToDelete;
+
 	public GameObject expOutline;
+
+	public Vector3 expLocation; //curent location
 
 	public bool NewTurn;
 
-	public bool isSelectedMode = false;
-	public bool isMovingMode = false;
-	public bool hasMoved = false;
+	public bool isSelectedMode = false; //if expedition is selected
+	public bool isMovingMode = false; //if expedition is in moving mode
+	public bool hasMoved = false; //if the expedition has moved this turn
 
-	public string[] expeditionPeople;//names of people in expedition
-	public int expeditionPeopleNum;
-	private int foodStorageCapacity;
+	public string[] expeditionPeople = new string[4];//names of people in expedition
+	public int expeditionPeopleNum; //number of people in expediton
 
-	public bool isMoving = false;
-	public Vector3 targetPos;
-	private float movedelaytimer = 0.5f;
+	public bool isMoving = false;//if the expedition is currently moving
+	public Vector3 targetPos;//move destination
 
 	public struct ExpeditionToolType { //storing different Tools and thier efficencies
 		public bool isAxe;
@@ -34,16 +38,19 @@ public class expeditionHandler : MonoBehaviour {
 	}
 	private ExpeditionFoodData temp; //temp val for swapping food variables
 
-	public ExpeditionFoodData[] storedFood;
+	public ExpeditionFoodData[] storedFood = new ExpeditionFoodData[9];
 	public ExpeditionToolType[] storedTools;
 
 	public int ExpeditionWaterStore;
 
+	//values for rentering base
+	public bool reEnteringBase = false;
+	public bool isEnterBaseMode = false;
+
 	// Use this for initialization
 	void Start () {
 		Instance = this;
-		foodStorageCapacity = expeditionPeopleNum * 10;
-		storedFood = new ExpeditionFoodData[foodStorageCapacity];
+		expLocation = baseHandler.Instance.baseLocation;
 		storedTools = new ExpeditionToolType[expeditionPeopleNum];
 	}
 	
@@ -54,13 +61,46 @@ public class expeditionHandler : MonoBehaviour {
 				if (isMoving == true) {
 					transform.position = Vector3.MoveTowards (transform.position, targetPos, 4f * Time.deltaTime);
 					if (transform.position == targetPos) {
+						GameObject ColliderGen = ((GameObject)Instantiate (colliderGen, transform.position, Quaternion.Euler (new Vector3 ())));
 						isMoving = false;
 						isMovingMode = false;
+						objToDelete = ColliderGen;
+						StartCoroutine ("destroyThing");
 						hasMoved = true;
 						UIManager.Instance.expMoveButton.interactable = false;
 					}
 				}
 			}
+		}
+
+		if (expLocation == baseHandler.Instance.baseLocation) {
+			UIManager.Instance.expEnterBaseButton.interactable = true;
+		} else {
+			UIManager.Instance.expEnterBaseButton.interactable = false;
+		}
+
+		if (isEnterBaseMode == true) {
+			for (int i = 0; i < storedFood.Length - 1; i++) {
+				for (int j = 0; j < GameManager.Instance.storedFood.Length - 1; j++) {
+					if (GameManager.Instance.storedFood [j].foodType == null) {
+						GameManager.Instance.storedFood [j].foodType = storedFood [i].foodType;
+						GameManager.Instance.storedFood [j].foodVal = storedFood [i].foodVal;
+						storedFood[i].foodType = null;
+						storedFood [i].foodVal = 0;
+						j = 64;
+					}
+				}
+			}
+			GameManager.Instance.waterStore += ExpeditionWaterStore;
+		
+			GameManager.Instance.playerPeople [0] = expeditionPeople [0];
+			GameManager.Instance.playerPeople [1] = expeditionPeople [1];
+			GameManager.Instance.playerPeople [2] = expeditionPeople [2];
+			GameManager.Instance.playerPeople [3] = expeditionPeople [3];
+
+
+			UIManager.Instance.expeditionEnabled = false;
+			Destroy (this.gameObject);
 		}
 
 		if (NewTurn == true) { //moving to the next turn
@@ -92,6 +132,9 @@ public class expeditionHandler : MonoBehaviour {
 
 			ExpeditionWaterStore -= expeditionPeopleNum * 4; //subtracting needed water
 			hasMoved = false;
+			UIManager.Instance.expMoveButton.interactable = true;
+			UIManager.Instance.checkFoodExpedition ();
+			UIManager.Instance.checkWaterExpedition ();
 
 			NewTurn = false; //ending the turn swap
 		}
@@ -104,13 +147,23 @@ public class expeditionHandler : MonoBehaviour {
 				expOutline.SetActive (true);
 				UIManager.Instance.expeditionPanel.SetActive (true);
 				baseHandler.Instance.cityUIScreen.SetActive (false);
+				UIManager.Instance.checkFoodExpedition ();
+				UIManager.Instance.checkWaterExpedition ();
+				UIManager.Instance.checkPeopleExpedition ();
 			} else if (isSelectedMode == true) {
 				isSelectedMode = false;
 				expOutline.SetActive (false);
-				movedelaytimer = 0.5f;
 				UIManager.Instance.expeditionPanel.SetActive (false);
 				baseHandler.Instance.cityUIScreen.SetActive (false);
+				UIManager.Instance.checkFoodExpedition ();
+				UIManager.Instance.checkWaterExpedition ();
+				UIManager.Instance.checkPeopleExpedition ();
 			}
 		}
+	}
+
+	IEnumerator destroyThing() {
+		yield return new WaitForSeconds (0.5f);
+		Destroy (objToDelete);
 	}
 }

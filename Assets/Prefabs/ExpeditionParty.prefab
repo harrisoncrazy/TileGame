@@ -37,8 +37,8 @@ GameObject:
   - component: {fileID: 4571141527937278}
   - component: {fileID: 212241146984940876}
   - component: {fileID: 114166825237355920}
-  - component: {fileID: 60014783771279628}
   - component: {fileID: 50822296551537688}
+  - component: {fileID: 61983732797045550}
   m_Layer: 0
   m_Name: ExpeditionParty
   m_TagString: Untagged
@@ -66,7 +66,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1894606020349026}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 54.277176, y: 18.286346, z: 0}
+  m_LocalPosition: {x: -55.21826, y: 234.6384, z: 0}
   m_LocalScale: {x: 0.3017235, y: 0.3017235, z: 0.3017235}
   m_Children:
   - {fileID: 4405654800446664}
@@ -93,8 +93,8 @@ Rigidbody2D:
   m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!60 &60014783771279628
-PolygonCollider2D:
+--- !u!61 &61983732797045550
+BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -104,37 +104,9 @@ PolygonCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_Offset: {x: 0, y: 0}
-  m_Points:
-    m_Paths:
-    - - {x: 0.65, y: 0.85999995}
-      - {x: 0.39, y: 1.05}
-      - {x: 0.51, y: 1.1999999}
-      - {x: 0.56, y: 1.38}
-      - {x: 0.52, y: 1.6999999}
-      - {x: 0.42999998, y: 1.8399999}
-      - {x: 0.19, y: 2.01}
-      - {x: 0.14, y: 2.02}
-      - {x: -0.089999996, y: 2.02}
-      - {x: -0.26, y: 1.9499999}
-      - {x: -0.41, y: 1.8299999}
-      - {x: -0.55, y: 1.54}
-      - {x: -0.53, y: 1.3199999}
-      - {x: -0.39999998, y: 1.1}
-      - {x: -0.57, y: 0.88}
-      - {x: -0.63, y: 0.76}
-      - {x: -0.63, y: -0.65}
-      - {x: -0.57, y: -0.66999996}
-      - {x: -0.56, y: -1.5999999}
-      - {x: -0.53999996, y: -1.62}
-      - {x: -0.14999999, y: -1.62}
-      - {x: -0.13, y: -1.5999999}
-      - {x: 0.13, y: -0.65999997}
-      - {x: 0.13, y: -1.62}
-      - {x: 0.14999999, y: -1.64}
-      - {x: 0.53999996, y: -1.64}
-      - {x: 0.56, y: -1.62}
-      - {x: 0.65, y: -0.79999995}
+  m_Offset: {x: 0, y: 0.19505654}
+  serializedVersion: 2
+  m_Size: {x: 1.2922965, y: 3.6326103}
 --- !u!114 &114166825237355920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -146,15 +118,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562796ec581064748a5b18634ab91b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  colliderGen: {fileID: 1702035004942852, guid: 4ed3e53195864c84eb0cd7adc7b0b2ac,
+    type: 2}
   expOutline: {fileID: 1828906753611492}
+  expLocation: {x: 0, y: 0, z: 0}
   NewTurn: 0
   isSelectedMode: 0
+  isMovingMode: 0
+  hasMoved: 0
   expeditionPeople:
   - 
   - 
   - 
   - 
   expeditionPeopleNum: 0
+  isMoving: 0
+  targetPos: {x: 0, y: 0, z: 0}
   ExpeditionWaterStore: 0
 --- !u!212 &212241146984940876
 SpriteRenderer:

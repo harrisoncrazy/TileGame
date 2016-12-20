@@ -14,7 +14,6 @@ public class generationManager : MonoBehaviour {
 	public GameObject objToDelete;
 
 	private bool homePlaced = false;
-	private bool homeWaterPlaced = false;
 
 	//Grass tile sprites
 	public Sprite HeavyForestTile;
@@ -136,6 +135,7 @@ public class generationManager : MonoBehaviour {
 									baseHandler home = ((GameObject)Instantiate (homeBase, pos, Quaternion.Euler (new Vector3 ()))).GetComponent<baseHandler> ();
 									GameObject homeCollider = ((GameObject)Instantiate (homeBaseCollider, pos, Quaternion.Euler (new Vector3 ())));
 									home.name = "homeBase";
+									home.baseLocation = pos;
 									objToDelete = homeCollider;
 									StartCoroutine ("destroyThing");
 									homePlaced = true;

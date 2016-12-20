@@ -7,6 +7,8 @@ public class baseHandler : MonoBehaviour {
 	public static baseHandler Instance;
 	public GameObject cityUIScreen;
 
+	public Vector3 baseLocation;
+
 	public bool toggleCityUI = false;
 
 	// Use this for initialization
