@@ -73,11 +73,13 @@ public class expeditionHandler : MonoBehaviour {
 			}
 		}
 
-		if (expLocation == baseHandler.Instance.baseLocation) {
-			UIManager.Instance.expEnterBaseButton.interactable = true;
-		} else {
+		if (expLocation != baseHandler.Instance.baseLocation) {
 			UIManager.Instance.expEnterBaseButton.interactable = false;
-		}
+		} 
+
+		if (expLocation == baseHandler.Instance.baseLocation) {
+			UIManager.Instance.expEnterBaseButton.interactable = false;
+		} 
 
 		if (isEnterBaseMode == true) {
 			for (int i = 0; i < storedFood.Length - 1; i++) {

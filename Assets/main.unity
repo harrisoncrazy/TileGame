@@ -667,6 +667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee918498a76c51146b2ff37a12bcb2a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eventsystem: {fileID: 197445613}
   selectedTile: {fileID: 0}
   NewTurn: 0
   waterStore: 0
