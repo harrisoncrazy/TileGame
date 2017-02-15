@@ -73,20 +73,14 @@ public class expeditionHandler : MonoBehaviour {
 				}
 			}
 		}
-
-<<<<<<< HEAD
+	
 		if (isAtHome == true) {
 			UIManager.Instance.expEnterBaseButton.interactable = true;
 		} else {
-=======
-		if (expLocation != baseHandler.Instance.baseLocation) {
-			UIManager.Instance.expEnterBaseButton.interactable = false;
-		} 
-
-		if (expLocation == baseHandler.Instance.baseLocation) {
->>>>>>> origin/master
-			UIManager.Instance.expEnterBaseButton.interactable = false;
-		} 
+			if (expLocation != baseHandler.Instance.baseLocation) {
+				UIManager.Instance.expEnterBaseButton.interactable = false;
+			}
+		}
 
 		if (isEnterBaseMode == true) {
 			for (int i = 0; i < storedFood.Length - 1; i++) {
@@ -102,11 +96,12 @@ public class expeditionHandler : MonoBehaviour {
 			}
 			GameManager.Instance.waterStore += ExpeditionWaterStore;
 		
-			GameManager.Instance.playerPeople [0] = expeditionPeople [0];
-			GameManager.Instance.playerPeople [1] = expeditionPeople [1];
-			GameManager.Instance.playerPeople [2] = expeditionPeople [2];
-			GameManager.Instance.playerPeople [3] = expeditionPeople [3];
-
+			for (int i = 0; i <= 3; i++) {
+				if (expeditionPeople [i] != "") {
+					GameManager.Instance.playerPeople [i] = expeditionPeople [i];
+					GameManager.Instance.playerPeopleNum++;
+				}
+			}
 
 			UIManager.Instance.expeditionEnabled = false;
 			UIManager.Instance.expeditionPanel.SetActive (false);
