@@ -60,6 +60,9 @@ public class baseHandler : MonoBehaviour {
 						expeditionHandler.Instance.expOutline.SetActive (false);
 					}
 				}
+			} else if (expeditionHandler.Instance.isMovingMode == true) {
+				expeditionHandler.Instance.targetPos = transform.position;
+				expeditionHandler.Instance.isMoving = true;
 			}
 		}
 	}

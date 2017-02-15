@@ -109,16 +109,16 @@ public class UIManager : MonoBehaviour {
 			expPerson3.gameObject.SetActive (true);
 			expPerson4.gameObject.SetActive (true);
 
-			if (GameManager.Instance.playerPeople [0] == null) {
+			if (GameManager.Instance.playerPeople [0] == "") {
 				expPerson1.gameObject.SetActive (false);
 			} 
-			if (GameManager.Instance.playerPeople [1] == null) {
+			if (GameManager.Instance.playerPeople [1] == "") {
 				expPerson2.gameObject.SetActive (false);
 			} 
-			if (GameManager.Instance.playerPeople [2] == null) {
+			if (GameManager.Instance.playerPeople [2] == "") {
 				expPerson3.gameObject.SetActive (false);
 			}
-			if (GameManager.Instance.playerPeople [3] == null) {
+			if (GameManager.Instance.playerPeople [3] == "") {
 				expPerson4.gameObject.SetActive (false);
 			} 
 
@@ -186,22 +186,22 @@ public class UIManager : MonoBehaviour {
 				if (expPerson1.isOn == true) {
 					expParty.expeditionPeople [0] = GameManager.Instance.playerPeople [0];
 					expParty.expeditionPeopleNum++;
-					GameManager.Instance.playerPeople [0] = null;
+					GameManager.Instance.playerPeople [0] = "";
 				}
 				if (expPerson2.isOn == true) {
 					expParty.expeditionPeople[1] = GameManager.Instance.playerPeople [1];
 					expParty.expeditionPeopleNum++;
-					GameManager.Instance.playerPeople [1] = null;
+					GameManager.Instance.playerPeople [1] = "";
 				}
 				if (expPerson3.isOn == true) {
 					expParty.expeditionPeople[2] = GameManager.Instance.playerPeople [2];
 					expParty.expeditionPeopleNum++;
-					GameManager.Instance.playerPeople [2] = null;
+					GameManager.Instance.playerPeople [2] = "";
 				}
 				if (expPerson4.isOn == true) {
 					expParty.expeditionPeople[3] = GameManager.Instance.playerPeople [3];
 					expParty.expeditionPeopleNum++;
-					GameManager.Instance.playerPeople [3] = null;
+					GameManager.Instance.playerPeople [3] = "";
 				}
 
 				if (foodToggles [0].isOn == true) {
@@ -291,7 +291,9 @@ public class UIManager : MonoBehaviour {
 	public void checkPeopleBase() {
 		for (int i = 0; i <= 6; i++) {
 			peopleTexts [i].text = GameManager.Instance.playerPeople [i];
-			if (GameManager.Instance.playerPeople [i] == null) {
+			if (GameManager.Instance.playerPeople [i] != "") {
+				peopleHeads [i].enabled = true;
+			} else {
 				peopleHeads [i].enabled = false;
 			}
 		}
@@ -341,7 +343,7 @@ public class UIManager : MonoBehaviour {
 	public void checkFoodExpedition() {
 		int totalExpFoodVal = 0;
 		for (int i = 0; i <= expeditionHandler.Instance.storedFood.Length-1; i++) {
-			Debug.Log (i + ": " + expeditionHandler.Instance.storedFood [i].foodType + ", " + expeditionHandler.Instance.storedFood [i].foodVal);
+			//Debug.Log (i + ": " + expeditionHandler.Instance.storedFood [i].foodType + ", " + expeditionHandler.Instance.storedFood [i].foodVal);
 			totalExpFoodVal += expeditionHandler.Instance.storedFood [i].foodVal;
 		}
 		expeditionFoodTextResourcePanel.text = "" + totalExpFoodVal;
@@ -361,7 +363,9 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void SetExpeditionEnterBaseMode() {
-		expeditionHandler.Instance.isEnterBaseMode = true;
+		if (expeditionHandler.Instance.isAtHome) {
+			expeditionHandler.Instance.isEnterBaseMode = true;
+		}
 	}
 
 

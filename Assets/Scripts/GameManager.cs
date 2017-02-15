@@ -36,6 +36,12 @@ public class GameManager : MonoBehaviour {
 		Instance = this;
 		playerPeople = new string[7];
 		playerPeople [0] = "Tim";
+		playerPeople [1] = "";
+		playerPeople [2] = "";
+		playerPeople [3] = "";
+		playerPeople [4] = "";
+		playerPeople [5] = "";
+		playerPeople [6] = "";
 		storedFood = new FoodData[32];
 		storedFood [0].foodType = "Bread"; //adding initial food and water stores
 		storedFood [0].foodVal = 4;

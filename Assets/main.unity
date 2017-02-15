@@ -4172,7 +4172,7 @@ MonoBehaviour:
   zoomSpeed: 10
   targetOrtho: 10
   smoothSpeed: 7
-  minOrtho: 3
+  minOrtho: 6
   maxOrtho: 15
 --- !u!114 &626695711
 MonoBehaviour:
@@ -8885,7 +8885,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1463704787
 RectTransform:
   m_ObjectHideFlags: 0

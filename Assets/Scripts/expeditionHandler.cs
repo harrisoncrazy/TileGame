@@ -19,6 +19,7 @@ public class expeditionHandler : MonoBehaviour {
 	public bool isSelectedMode = false; //if expedition is selected
 	public bool isMovingMode = false; //if expedition is in moving mode
 	public bool hasMoved = false; //if the expedition has moved this turn
+	public bool isAtHome = false; //if the expedtion is at the home tile
 
 	public string[] expeditionPeople = new string[4];//names of people in expedition
 	public int expeditionPeopleNum; //number of people in expediton
@@ -61,11 +62,11 @@ public class expeditionHandler : MonoBehaviour {
 				if (isMoving == true) {
 					transform.position = Vector3.MoveTowards (transform.position, targetPos, 4f * Time.deltaTime);
 					if (transform.position == targetPos) {
-						GameObject ColliderGen = ((GameObject)Instantiate (colliderGen, transform.position, Quaternion.Euler (new Vector3 ())));
+						//GameObject ColliderGen = ((GameObject)Instantiate (colliderGen, transform.position, Quaternion.Euler (new Vector3 ())));
 						isMoving = false;
 						isMovingMode = false;
-						objToDelete = ColliderGen;
-						StartCoroutine ("destroyThing");
+						//objToDelete = ColliderGen;
+						//StartCoroutine ("destroyThing");
 						hasMoved = true;
 						UIManager.Instance.expMoveButton.interactable = false;
 					}
@@ -73,7 +74,7 @@ public class expeditionHandler : MonoBehaviour {
 			}
 		}
 
-		if (expLocation == baseHandler.Instance.baseLocation) {
+		if (isAtHome == true) {
 			UIManager.Instance.expEnterBaseButton.interactable = true;
 		} else {
 			UIManager.Instance.expEnterBaseButton.interactable = false;
@@ -100,6 +101,7 @@ public class expeditionHandler : MonoBehaviour {
 
 
 			UIManager.Instance.expeditionEnabled = false;
+			UIManager.Instance.expeditionPanel.SetActive (false);
 			Destroy (this.gameObject);
 		}
 
@@ -143,10 +145,12 @@ public class expeditionHandler : MonoBehaviour {
 	void OnMouseDown() {
 		if (isMovingMode == false) {
 			if (isSelectedMode == false) {
+				baseHandler.Instance.toggleCityUI = false;
 				isSelectedMode = true;
 				expOutline.SetActive (true);
 				UIManager.Instance.expeditionPanel.SetActive (true);
 				baseHandler.Instance.cityUIScreen.SetActive (false);
+				baseHandler.Instance.toggleCityUI = false;
 				UIManager.Instance.checkFoodExpedition ();
 				UIManager.Instance.checkWaterExpedition ();
 				UIManager.Instance.checkPeopleExpedition ();
@@ -163,7 +167,19 @@ public class expeditionHandler : MonoBehaviour {
 	}
 
 	IEnumerator destroyThing() {
-		yield return new WaitForSeconds (0.5f);
+		yield return new WaitForSeconds (1.0f);
 		Destroy (objToDelete);
+	}
+
+	void OnTriggerStay2D (Collider2D col) {
+		if (col.gameObject.tag == "HomeTile") {
+			isAtHome = true;
+		}
+	}
+
+	void OnTriggerExit2D (Collider2D col) {
+		if (col.gameObject.tag == "HomeTile") {
+			isAtHome = false;
+		}
 	}
 }

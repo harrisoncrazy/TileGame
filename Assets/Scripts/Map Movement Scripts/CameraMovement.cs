@@ -6,6 +6,10 @@ public class CameraMovement : MonoBehaviour {
 	private float speed = 6f;
 
 	private bool movedStart = false;
+	private bool cameraReset = true;
+
+	private float defaultDampening;
+	private float defaultZoom;
 
 	// Update is called once per frame
 	void Update () {
@@ -16,13 +20,28 @@ public class CameraMovement : MonoBehaviour {
 		}
 
 		if (generationManager.Instance.genStepTwoDone == true) {
+			if (UIManager.Instance.expeditionEnabled == true) {
+				if (expeditionHandler.Instance.isMoving == true) {
+					if (cameraReset == true) {
+						defaultDampening = SmoothFollow2D.Instance.MovementDamping;
+						defaultZoom = Zoom.Instance.targetOrtho;
+						cameraReset = false;
+					}
+					SmoothFollow2D.Instance.MovementDamping = 10.0f;
+					Zoom.Instance.targetOrtho = 15.0f;
+					Vector2 pos = GameObject.Find ("ExpeditionParty(Clone)").transform.position;
+					transform.position = pos;
+				} else if (expeditionHandler.Instance.isMoving == false && cameraReset == false) {
+					SmoothFollow2D.Instance.MovementDamping = defaultDampening;
+					Zoom.Instance.targetOrtho = defaultZoom;
+					cameraReset = true;
+				}
+			}
+
 			if (baseHandler.Instance.toggleCityUI == true) {//moving camera to city if city selected
 				Vector2 pos = GameObject.Find ("homeBase").transform.position;
 				transform.position = pos;
-			}
-		
-
-			if (baseHandler.Instance.toggleCityUI == false) { //stopping movement if city selected
+			} else if (baseHandler.Instance.toggleCityUI == false) { //stopping movement if city selected
 				if (Input.GetKeyDown (KeyCode.LeftShift)) {
 					speed = 12f;
 				}

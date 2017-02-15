@@ -3,12 +3,18 @@
 [AddComponentMenu("Camera-Control/Smooth Follow")]
 public class SmoothFollow2D : MonoBehaviour
 {
+	public static SmoothFollow2D Instance;
+
 	// The target we are following.
 	public Transform Target;
 	
 	// How much damping occurs when the target moves.
 	public float MovementDamping = 1.0f;
-	
+
+	void Start() {
+		Instance = this;
+	}
+
 	void LateUpdate ()
 	{
 		// Early out if we don't have a target.

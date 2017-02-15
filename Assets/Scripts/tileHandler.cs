@@ -84,34 +84,36 @@ public class tileHandler : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
-		if (UIManager.Instance.expeditionEnabled == false) {
+		if (discovered) {
 			if (UIManager.Instance.expeditionEnabled == false) {
-				if (selected && transform == trSelect) {
-					selected = false;
-					trSelect = null;
-					tileOutlineSprite.SetActive (false);
-				} else {
-					selected = true;
-					GameManager.Instance.selectedTile = this.transform;
-					tileOutlineSprite.SetActive (true);
-				}
-			} 
-		}
-		if (UIManager.Instance.expeditionEnabled == true) {
-			if (expeditionHandler.Instance.isMovingMode == false) {
-				if (selected && transform == trSelect) {
-					selected = false;
-					trSelect = null;
-					tileOutlineSprite.SetActive (false);
-				} else {
-					selected = true;
-					GameManager.Instance.selectedTile = this.transform;
-					tileOutlineSprite.SetActive (true);
-				}
+				if (UIManager.Instance.expeditionEnabled == false) {
+					if (selected && transform == trSelect) {
+						selected = false;
+						trSelect = null;
+						tileOutlineSprite.SetActive (false);
+					} else {
+						selected = true;
+						GameManager.Instance.selectedTile = this.transform;
+						tileOutlineSprite.SetActive (true);
+					}
+				} 
 			}
-			if (expeditionHandler.Instance.isMovingMode == true) {
-				expeditionHandler.Instance.targetPos = transform.position;
-				expeditionHandler.Instance.isMoving = true;
+			if (UIManager.Instance.expeditionEnabled == true) {
+				if (expeditionHandler.Instance.isMovingMode == false) {
+					if (selected && transform == trSelect) {
+						selected = false;
+						trSelect = null;
+						tileOutlineSprite.SetActive (false);
+					} else {
+						selected = true;
+						GameManager.Instance.selectedTile = this.transform;
+						tileOutlineSprite.SetActive (true);
+					}
+				}
+				if (expeditionHandler.Instance.isMovingMode == true) {
+					expeditionHandler.Instance.targetPos = transform.position;
+					expeditionHandler.Instance.isMoving = true;
+				}
 			}
 		}
 	}
@@ -207,6 +209,12 @@ public class tileHandler : MonoBehaviour {
 					}
 				}
 			}
+		}
+	}
+
+	void OnTriggerExit2D (Collider2D col) {
+		if (col.gameObject.tag == "sightCollider") {
+			inSight = false;
 		}
 	}
 
