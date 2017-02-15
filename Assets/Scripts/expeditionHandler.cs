@@ -99,24 +99,35 @@ public class expeditionHandler : MonoBehaviour {
 		}
 
 		//checking to see if thecurrent tile has forest
-		if (expLocationTile.name == "baseTile") {
+		if (expLocationTile.name == "baseTile(Clone)") {
 			currentTileType = expLocationTile.GetComponent<tileHandler> ().tileType;
+		} else if (expLocationTile.name == "homeBase") {
+			currentTileType = "Home Base";
 		}
 		switch (currentTileType) {
+		case "Home Base":
+			isAtHome = true;
+			isAtTrees = false;
+			break;
 		case "Heavy Forest":
+			isAtHome = false;
 			isAtTrees = true;
 			break;
 		case "Light Forest":
+			isAtHome = false;
 			isAtTrees = true;
 			break;
 		case "Heavy Forest Snow":
+			isAtHome = false;
 			isAtTrees = true;
 			break;
 		case "Light Forest Snow":
+			isAtHome = false;
 			isAtTrees = true;
 			break;
 		default:
 			isAtTrees = false;
+			isAtHome = false;
 			break;
 		}
 
@@ -212,6 +223,7 @@ public class expeditionHandler : MonoBehaviour {
 		Destroy (objToDelete);
 	}
 
+	/*
 	void OnTriggerStay2D (Collider2D col) {
 		if (col.gameObject.tag == "HomeTile") {
 			isAtHome = true;
@@ -222,5 +234,5 @@ public class expeditionHandler : MonoBehaviour {
 		if (col.gameObject.tag == "HomeTile") {
 			isAtHome = false;
 		}
-	}
+	}*/
 }

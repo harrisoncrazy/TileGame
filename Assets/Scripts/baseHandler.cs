@@ -44,6 +44,7 @@ public class baseHandler : MonoBehaviour {
 		} else if (expeditionHandler.Instance.isMovingMode == true) {//if the expedition is in moving mode, move to the home base tile
 			expeditionHandler.Instance.targetPos = transform.position;
 			expeditionHandler.Instance.isMoving = true;
+			expeditionHandler.Instance.expLocationTile = this.gameObject;
 		}
 		if (UIManager.Instance.expeditionEnabled == true) {
 			if (expeditionHandler.Instance.isMovingMode != true) {//setting the interaction if the expedition is enabled
