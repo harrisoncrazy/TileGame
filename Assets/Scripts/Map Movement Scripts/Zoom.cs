@@ -6,9 +6,9 @@ public class Zoom : MonoBehaviour {
 	public static Zoom Instance;
 
 	public float zoomSpeed = 1;
-	public float targetOrtho;
-	public float smoothSpeed = 2.0f;
-	public float minOrtho = 1.0f;
+	public float targetOrtho;//the current othographic
+	public float smoothSpeed = 2.0f;//the dampening speed
+	public float minOrtho = 1.0f;//min/max orth
 	public float maxOrtho = 20.0f;
 
 	void Start() {

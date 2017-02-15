@@ -57,6 +57,10 @@ public class tileHandler : MonoBehaviour {
 				selected = false;
 				tileOutlineSprite.SetActive (false);
 			}
+			if (expeditionHandler.Instance.isSelectedMode == true) {
+				selected = false;
+				tileOutlineSprite.SetActive (false);
+			}
 		}
 
 		if (shutdown == false) { //shutting down all tile colliders at game start
@@ -78,14 +82,14 @@ public class tileHandler : MonoBehaviour {
 		}
 	}
 
-	IEnumerator shutOffColliders() {
+	IEnumerator shutOffColliders() {//turning off colliders after a delay
 		yield return new WaitForSeconds (2.0f);
 		colliderMain.enabled = false;
 	}
 
 	public void OnMouseDown() {
-		if (discovered) {
-			if (UIManager.Instance.expeditionEnabled == false) {
+		if (discovered) {//if the tile has been seen and discovered
+			if (UIManager.Instance.expeditionEnabled == false) {//if an expedtion is currently out
 				if (UIManager.Instance.expeditionEnabled == false) {
 					if (selected && transform == trSelect) {
 						selected = false;
@@ -98,7 +102,7 @@ public class tileHandler : MonoBehaviour {
 					}
 				} 
 			}
-			if (UIManager.Instance.expeditionEnabled == true) {
+			if (UIManager.Instance.expeditionEnabled == true) {//seeing if the expedition is in moving mode or not
 				if (expeditionHandler.Instance.isMovingMode == false) {
 					if (selected && transform == trSelect) {
 						selected = false;
@@ -212,7 +216,7 @@ public class tileHandler : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerExit2D (Collider2D col) {
+	void OnTriggerExit2D (Collider2D col) {//leaving sight, enabling fog of war
 		if (col.gameObject.tag == "sightCollider") {
 			inSight = false;
 		}

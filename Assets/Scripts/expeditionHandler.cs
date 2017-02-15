@@ -74,15 +74,13 @@ public class expeditionHandler : MonoBehaviour {
 			}
 		}
 	
-		if (isAtHome == true) {
+		if (isAtHome == true) {//if in range of the base, allows the renter base button to be clicked
 			UIManager.Instance.expEnterBaseButton.interactable = true;
 		} else {
-			if (expLocation != baseHandler.Instance.baseLocation) {
-				UIManager.Instance.expEnterBaseButton.interactable = false;
-			}
+			UIManager.Instance.expEnterBaseButton.interactable = false;
 		}
 
-		if (isEnterBaseMode == true) {
+		if (isEnterBaseMode == true) {//entering the base, offloading food and people values
 			for (int i = 0; i < storedFood.Length - 1; i++) {
 				for (int j = 0; j < GameManager.Instance.storedFood.Length - 1; j++) {
 					if (GameManager.Instance.storedFood [j].foodType == null) {
@@ -96,13 +94,13 @@ public class expeditionHandler : MonoBehaviour {
 			}
 			GameManager.Instance.waterStore += ExpeditionWaterStore;
 		
-			for (int i = 0; i <= 3; i++) {
+			for (int i = 0; i <= 3; i++) {//putting the people back into the base
 				if (expeditionPeople [i] != "") {
 					GameManager.Instance.playerPeople [i] = expeditionPeople [i];
 					GameManager.Instance.playerPeopleNum++;
 				}
 			}
-
+			//disabling references to the expedtition and deleting
 			UIManager.Instance.expeditionEnabled = false;
 			UIManager.Instance.expeditionPanel.SetActive (false);
 			Destroy (this.gameObject);
@@ -136,9 +134,9 @@ public class expeditionHandler : MonoBehaviour {
 
 
 			ExpeditionWaterStore -= expeditionPeopleNum * 4; //subtracting needed water
-			hasMoved = false;
+			hasMoved = false;//allowing movement next turn
 			UIManager.Instance.expMoveButton.interactable = true;
-			UIManager.Instance.checkFoodExpedition ();
+			UIManager.Instance.checkFoodExpedition ();//checking food and water for the expedition
 			UIManager.Instance.checkWaterExpedition ();
 
 			NewTurn = false; //ending the turn swap
@@ -147,7 +145,7 @@ public class expeditionHandler : MonoBehaviour {
 
 	void OnMouseDown() {
 		if (isMovingMode == false) {
-			if (isSelectedMode == false) {
+			if (isSelectedMode == false) {//toggling on and off the expedition panel values
 				baseHandler.Instance.toggleCityUI = false;
 				isSelectedMode = true;
 				expOutline.SetActive (true);

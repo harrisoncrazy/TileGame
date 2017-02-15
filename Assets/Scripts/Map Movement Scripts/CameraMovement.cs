@@ -5,8 +5,8 @@ public class CameraMovement : MonoBehaviour {
 
 	private float speed = 6f;
 
-	private bool movedStart = false;
-	private bool cameraReset = true;
+	private bool movedStart = false;//if the game has started and the camera is free to move
+	private bool cameraReset = true;//reseting the camera zoom and oth after moving with an expedtion
 
 	private float defaultDampening;
 	private float defaultZoom;
@@ -14,24 +14,24 @@ public class CameraMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (movedStart == false) {
-			if (generationManager.Instance.genStepTwoDone == true) {
+			if (generationManager.Instance.genStepTwoDone == true) {//handleling the camera during generation
 				StartCoroutine ("startCam");
 			}
 		}
 
-		if (generationManager.Instance.genStepTwoDone == true) {
-			if (UIManager.Instance.expeditionEnabled == true) {
-				if (expeditionHandler.Instance.isMoving == true) {
+		if (generationManager.Instance.genStepTwoDone == true) {//if finished generating
+			if (UIManager.Instance.expeditionEnabled == true) {//if there is an expedition
+				if (expeditionHandler.Instance.isMoving == true) {//if the expedition is moving
 					if (cameraReset == true) {
 						defaultDampening = SmoothFollow2D.Instance.MovementDamping;
 						defaultZoom = Zoom.Instance.targetOrtho;
 						cameraReset = false;
 					}
-					SmoothFollow2D.Instance.MovementDamping = 10.0f;
+					SmoothFollow2D.Instance.MovementDamping = 10.0f;//zooming out and having the camera locked
 					Zoom.Instance.targetOrtho = 15.0f;
 					Vector2 pos = GameObject.Find ("ExpeditionParty(Clone)").transform.position;
 					transform.position = pos;
-				} else if (expeditionHandler.Instance.isMoving == false && cameraReset == false) {
+				} else if (expeditionHandler.Instance.isMoving == false && cameraReset == false) {//reseting camera after movement is finished
 					SmoothFollow2D.Instance.MovementDamping = defaultDampening;
 					Zoom.Instance.targetOrtho = defaultZoom;
 					cameraReset = true;
@@ -66,7 +66,7 @@ public class CameraMovement : MonoBehaviour {
 		}
 	}
 
-	IEnumerator startCam(){
+	IEnumerator startCam(){//cycling the camera while generating to ensure all colliders work
 		yield return new WaitForSeconds (1.0f);
 		Vector2 outPos = transform.position;
 		Vector2 pos = GameObject.Find ("homeBase").transform.position;

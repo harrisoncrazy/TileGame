@@ -7,11 +7,13 @@ public class UIManager : MonoBehaviour {
 
 	public static UIManager Instance;
 
+	//home base ui elements
 	public GameObject resourcePanel;
 	public GameObject peoplePanel;
 	public GameObject needsPanel;
-
 	public GameObject expeditionPanelBase;
+
+	//prefab for expedition
 	public GameObject expeditonPrefab;
 
 	//People Array
@@ -40,8 +42,6 @@ public class UIManager : MonoBehaviour {
 	public Text expPerson3Text;
 	public Text expPerson4Text;
 
-	public GameObject expeditionPanel;
-
 	//Water stores for expedition handler
 	public InputField expeditionWaterInput;
 	private bool waterError = true;
@@ -57,7 +57,8 @@ public class UIManager : MonoBehaviour {
 
 	public Text expeditionPeoplePrint;
 
-	//expedition panel buttons
+	//expedition panel stuff
+	public GameObject expeditionPanel;
 	public Button expMoveButton;
 	public Button expEnterBaseButton;
 
@@ -67,7 +68,7 @@ public class UIManager : MonoBehaviour {
 		//City Panel UI Stuff
 		peopleTexts = new Text[7];
 		peopleHeads = new Image[7];
-		for (int i = 1; i <= 7; i++) {
+		for (int i = 1; i <= 7; i++) {//finding heads and text values for the head array
 			peopleTexts [i - 1] = GameObject.Find ("p" + i + "Text").GetComponent<Text> ();
 			peopleHeads [i - 1] = GameObject.Find ("p" + i + "Head").GetComponent<Image> ();
 		}
@@ -83,7 +84,7 @@ public class UIManager : MonoBehaviour {
 		//Expedition Panel UI stuff
 		foodToggles = new Toggle[10];
 		foodToggleTexts = new Text[10];
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= 10; i++) {//finding the food toggles for the expedition
 			foodToggles [i - 1] = GameObject.Find ("expFood" + i).GetComponent<Toggle> ();
 			foodToggleTexts [i - 1] = GameObject.Find ("expFoodText" + i).GetComponent<Text> ();
 		}
@@ -182,9 +183,9 @@ public class UIManager : MonoBehaviour {
 			foodToggleTexts [8].text = GameManager.Instance.storedFood [8].foodType + ", Value: " + GameManager.Instance.storedFood [8].foodVal;
 			foodToggleTexts [9].text = GameManager.Instance.storedFood [9].foodType + ", Value: " + GameManager.Instance.storedFood [9].foodVal;
 
-			if (finalizingExpediton == true) {
+			if (finalizingExpediton == true) {//finalizing expedition, moving selected food and other things from the base to the expedition
 				expeditionHandler expParty = ((GameObject)Instantiate (expeditonPrefab, GameObject.Find("homeBase").transform.position, GameObject.Find("homeBase").transform.rotation)).GetComponent<expeditionHandler> ();//instanciating the expidition
-				if (expPerson1.isOn == true) {
+				if (expPerson1.isOn == true) {//if the person toggle is turned on, move them to the expedition
 					expParty.expeditionPeople [0] = GameManager.Instance.playerPeople [0];
 					expParty.expeditionPeopleNum++;
 					GameManager.Instance.playerPeople [0] = "";
@@ -205,7 +206,7 @@ public class UIManager : MonoBehaviour {
 					GameManager.Instance.playerPeople [3] = "";
 				}
 
-				if (foodToggles [0].isOn == true) {
+				if (foodToggles [0].isOn == true) {//if the food toggle is on, move it to the expedition
 					expParty.storedFood [0].foodType = GameManager.Instance.storedFood [0].foodType;
 					expParty.storedFood [0].foodVal = GameManager.Instance.storedFood [0].foodVal;
 					GameManager.Instance.storedFood [0].foodType = null;

@@ -17,11 +17,11 @@ public class sceneManager : MonoBehaviour {
 	
 	}
 
-	public void QuitGame() {
+	public void QuitGame() {//quiting game
 		Application.Quit ();
 	}
 
-	public void LoadLevel() {
+	public void LoadLevel() {//selecting a scene to load
 		Time.timeScale = 1.0f;
 		SceneManager.LoadScene (sceneToLoad);
 	}

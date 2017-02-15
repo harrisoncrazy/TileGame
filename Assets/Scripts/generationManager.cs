@@ -122,11 +122,11 @@ public class generationManager : MonoBehaviour {
 			}
 		}
 
-		if (genStepTwoDone == true) {
+		if (genStepTwoDone == true) {//after the second gen step is done
 			for (int i = 0; i <= mapSizeX - 1; i++) {
 				for (int j = 0; j <= mapSizeY - 1; j++) {
 					if (map [i] [j].tileType == "Grassland") {
-						int rand = Random.Range (1, 101);
+						int rand = Random.Range (1, 101);//finding a random placement for the home base, in a grass tile
 						if (homePlaced == false) {
 							if (i >= 5 && j >= 5) {
 								if (rand <= 2) {

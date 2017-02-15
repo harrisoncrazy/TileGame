@@ -25,7 +25,7 @@ public class baseHandler : MonoBehaviour {
 
 	void OnMouseDown() {
 		if (UIManager.Instance.expeditionEnabled == false) {
-			if (toggleCityUI == false) {
+			if (toggleCityUI == false) {//toggling the base ui on
 				cityUIScreen.SetActive (true);
 				toggleCityUI = true;
 				UIManager.Instance.expeditionPanel.SetActive (false);
@@ -33,20 +33,20 @@ public class baseHandler : MonoBehaviour {
 					expeditionHandler.Instance.expOutline.SetActive (false);
 					expeditionHandler.Instance.isSelectedMode = false;
 				}
-			} else if (toggleCityUI == true) {
+			} else if (toggleCityUI == true) {//toggling base off
 				cityUIScreen.SetActive (false);
 				toggleCityUI = false;
 				UIManager.Instance.expeditionPanel.SetActive (false);
-				if (UIManager.Instance.expeditionEnabled == true) {
+				if (UIManager.Instance.expeditionEnabled == true) {//disabling the outline on the expedition if it is enabled
 					expeditionHandler.Instance.expOutline.SetActive (false);
 				}
 			}
-		} else if (expeditionHandler.Instance.isMovingMode == true) {
+		} else if (expeditionHandler.Instance.isMovingMode == true) {//if the expedition is in moving mode, move to the home base tile
 			expeditionHandler.Instance.targetPos = transform.position;
 			expeditionHandler.Instance.isMoving = true;
 		}
 		if (UIManager.Instance.expeditionEnabled == true) {
-			if (expeditionHandler.Instance.isMovingMode != true) {
+			if (expeditionHandler.Instance.isMovingMode != true) {//setting the interaction if the expedition is enabled
 				if (toggleCityUI == false) {
 					cityUIScreen.SetActive (true);
 					toggleCityUI = true;
