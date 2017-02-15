@@ -125,6 +125,14 @@ public class expeditionHandler : MonoBehaviour {
 			isAtHome = false;
 			isAtTrees = true;
 			break;
+		case "Heavy Forest Stone":
+			isAtHome = false;
+			isAtTrees = true;
+			break;
+		case "Light Forest Stone":
+			isAtHome = false;
+			isAtTrees = true;
+			break;
 		default:
 			isAtTrees = false;
 			isAtHome = false;
