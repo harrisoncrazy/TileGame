@@ -2195,7 +2195,6 @@ MonoBehaviour:
   expPerson2Text: {fileID: 128599059}
   expPerson3Text: {fileID: 1186353222}
   expPerson4Text: {fileID: 1145314465}
-  expeditionPanel: {fileID: 1463704786}
   expeditionWaterInput: {fileID: 369518502}
   waterErrorText: {fileID: 110207411}
   foodToggles: []
@@ -2203,6 +2202,7 @@ MonoBehaviour:
   expeditionFoodTextResourcePanel: {fileID: 1912879717}
   expeditionWaterTextResourcePanel: {fileID: 749466040}
   expeditionPeoplePrint: {fileID: 2001790649}
+  expeditionPanel: {fileID: 1463704786}
   expMoveButton: {fileID: 30437225}
   expEnterBaseButton: {fileID: 775377871}
 --- !u!4 &348910141

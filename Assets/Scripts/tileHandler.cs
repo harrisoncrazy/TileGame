@@ -57,10 +57,6 @@ public class tileHandler : MonoBehaviour {
 				selected = false;
 				tileOutlineSprite.SetActive (false);
 			}
-			if (expeditionHandler.Instance.isSelectedMode == true) {
-				selected = false;
-				tileOutlineSprite.SetActive (false);
-			}
 		}
 
 		if (shutdown == false) { //shutting down all tile colliders at game start
