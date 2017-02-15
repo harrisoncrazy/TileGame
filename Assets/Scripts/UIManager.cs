@@ -88,6 +88,7 @@ public class UIManager : MonoBehaviour {
 			foodToggleTexts [i - 1] = GameObject.Find ("expFoodText" + i).GetComponent<Text> ();
 		}
 		expeditionPanelBase.SetActive (false);
+		expeditionPanel.SetActive (false);
 	}
 	
 	// Update is called once per frame

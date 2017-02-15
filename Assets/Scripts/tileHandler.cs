@@ -84,7 +84,11 @@ public class tileHandler : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
+<<<<<<< HEAD
 		if (discovered) {
+=======
+		if (!GameManager.Instance.eventsystem.IsPointerOverGameObject()) {
+>>>>>>> origin/master
 			if (UIManager.Instance.expeditionEnabled == false) {
 				if (UIManager.Instance.expeditionEnabled == false) {
 					if (selected && transform == trSelect) {
