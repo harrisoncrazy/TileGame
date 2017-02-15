@@ -7,10 +7,13 @@ public class expeditionHandler : MonoBehaviour {
 
 	public static expeditionHandler Instance;
 
-	public GameObject colliderGen;//collider prefab for sight
 	private GameObject objToDelete;
 
 	public GameObject expOutline;
+
+	//the current tile the expedition is located at
+	public GameObject expLocationTile;
+	public string currentTileType;
 
 	public Vector3 expLocation; //curent location
 
@@ -48,11 +51,17 @@ public class expeditionHandler : MonoBehaviour {
 	public bool reEnteringBase = false;
 	public bool isEnterBaseMode = false;
 
+	//values for gathering wood
+	public bool isAtTrees = false;
+	public bool isChoppingMode = false;
+
 	// Use this for initialization
 	void Start () {
 		Instance = this;
 		expLocation = baseHandler.Instance.baseLocation;
 		storedTools = new ExpeditionToolType[expeditionPeopleNum];
+
+		expLocationTile = GameObject.Find ("homeBase");
 	}
 	
 	// Update is called once per frame
@@ -72,12 +81,43 @@ public class expeditionHandler : MonoBehaviour {
 					}
 				}
 			}
+			if (isChoppingMode == true) {
+
+			}
 		}
 	
 		if (isAtHome == true) {//if in range of the base, allows the renter base button to be clicked
 			UIManager.Instance.expEnterBaseButton.interactable = true;
 		} else {
 			UIManager.Instance.expEnterBaseButton.interactable = false;
+		}
+
+		if (isAtTrees == true) {//if on a choppable tile, allows the expedition to gather
+			UIManager.Instance.expChopButton.interactable = true;
+		} else {
+			UIManager.Instance.expChopButton.interactable = false;
+		}
+
+		//checking to see if thecurrent tile has forest
+		if (expLocationTile.name == "baseTile") {
+			currentTileType = expLocationTile.GetComponent<tileHandler> ().tileType;
+		}
+		switch (currentTileType) {
+		case "Heavy Forest":
+			isAtTrees = true;
+			break;
+		case "Light Forest":
+			isAtTrees = true;
+			break;
+		case "Heavy Forest Snow":
+			isAtTrees = true;
+			break;
+		case "Light Forest Snow":
+			isAtTrees = true;
+			break;
+		default:
+			isAtTrees = false;
+			break;
 		}
 
 		if (isEnterBaseMode == true) {//entering the base, offloading food and people values
@@ -175,7 +215,7 @@ public class expeditionHandler : MonoBehaviour {
 	void OnTriggerStay2D (Collider2D col) {
 		if (col.gameObject.tag == "HomeTile") {
 			isAtHome = true;
-		}
+		} 
 	}
 
 	void OnTriggerExit2D (Collider2D col) {

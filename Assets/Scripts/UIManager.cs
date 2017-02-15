@@ -61,6 +61,7 @@ public class UIManager : MonoBehaviour {
 	public GameObject expeditionPanel;
 	public Button expMoveButton;
 	public Button expEnterBaseButton;
+	public Button expChopButton;
 
 	// Use this for initialization
 	void Start () {
@@ -90,6 +91,7 @@ public class UIManager : MonoBehaviour {
 		}
 		expeditionPanelBase.SetActive (false);
 		expeditionPanel.SetActive (false);
+		expChopButton.interactable = false;
 	}
 	
 	// Update is called once per frame
@@ -267,6 +269,18 @@ public class UIManager : MonoBehaviour {
 					GameManager.Instance.storedFood [9].foodVal = 0;
 				}
 				finalizingExpediton = false;
+
+				//Reseting input fields in the arranging expedition tab
+				expeditionWaterInput.text = null;
+				expPerson1.isOn = false;
+				expPerson2.isOn = false;
+				expPerson3.isOn = false;
+				expPerson4.isOn = false;
+
+				for (int i = 0; i < foodToggles.Length - 1; i++) {
+					foodToggles [i].isOn = false;
+				}
+
 				expeditionPanelBase.SetActive (false);
 				expParty.ExpeditionWaterStore = waterValToTake;
 				GameManager.Instance.waterStore -= waterValToTake;
@@ -357,11 +371,7 @@ public class UIManager : MonoBehaviour {
 	}
 
 	public void SetExpeditionMoveMode() { 
-		if (expeditionHandler.Instance.isMovingMode == false) {
-			expeditionHandler.Instance.isMovingMode = true;
-		} else if (expeditionHandler.Instance.isMovingMode == true) {
-			expeditionHandler.Instance.isMovingMode = false;
-		}
+		expeditionHandler.Instance.isMovingMode = !expeditionHandler.Instance.isMovingMode;
 	}
 
 	public void SetExpeditionEnterBaseMode() {
@@ -370,6 +380,11 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
+	public void SetExpeditionChopWoodMode() {
+		if (expeditionHandler.Instance.isAtTrees) {
+			expeditionHandler.Instance.isChoppingMode = !expeditionHandler.Instance.isChoppingMode;
+		}
+	}
 
 	public void NextTurn() {
 		GameManager.Instance.NewTurn = true;

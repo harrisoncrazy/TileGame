@@ -111,6 +111,7 @@ public class tileHandler : MonoBehaviour {
 					}
 				}
 				if (expeditionHandler.Instance.isMovingMode == true) {
+					expeditionHandler.Instance.expLocationTile = this.gameObject;
 					expeditionHandler.Instance.targetPos = transform.position;
 					expeditionHandler.Instance.isMoving = true;
 				}
