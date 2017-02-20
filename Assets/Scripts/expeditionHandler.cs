@@ -45,6 +45,8 @@ public class expeditionHandler : MonoBehaviour {
 	public ExpeditionFoodData[] storedFood = new ExpeditionFoodData[9];
 	public ExpeditionToolType[] storedTools;
 
+	public int storedWood;
+
 	public int ExpeditionWaterStore;
 
 	//values for rentering base
@@ -54,6 +56,7 @@ public class expeditionHandler : MonoBehaviour {
 	//values for gathering wood
 	public bool isAtTrees = false;
 	public bool isChoppingMode = false;
+	public int treeChopTurns;
 
 	// Use this for initialization
 	void Start () {
@@ -78,6 +81,7 @@ public class expeditionHandler : MonoBehaviour {
 						//StartCoroutine ("destroyThing");
 						hasMoved = true;
 						UIManager.Instance.expMoveButton.interactable = false;
+						UIManager.Instance.expInfoText.enabled = false;
 					}
 				}
 			}
@@ -133,6 +137,14 @@ public class expeditionHandler : MonoBehaviour {
 			isAtHome = false;
 			isAtTrees = true;
 			break;
+		case "Light Forest Dirt":
+			isAtHome = false;
+			isAtTrees = true;
+			break;
+		case "Heavy Forest Dirt":
+			isAtHome = false;
+			isAtTrees = true;
+			break;
 		default:
 			isAtTrees = false;
 			isAtHome = false;
@@ -152,6 +164,7 @@ public class expeditionHandler : MonoBehaviour {
 				}
 			}
 			GameManager.Instance.waterStore += ExpeditionWaterStore;
+			GameManager.Instance.woodStored += storedWood;
 		
 			for (int i = 0; i <= 3; i++) {//putting the people back into the base
 				if (expeditionPeople [i] != "") {
@@ -163,6 +176,10 @@ public class expeditionHandler : MonoBehaviour {
 			UIManager.Instance.expeditionEnabled = false;
 			UIManager.Instance.expeditionPanel.SetActive (false);
 			Destroy (this.gameObject);
+		}
+
+		if (isChoppingMode == true) {
+
 		}
 
 		if (NewTurn == true) { //moving to the next turn
@@ -197,6 +214,54 @@ public class expeditionHandler : MonoBehaviour {
 			UIManager.Instance.expMoveButton.interactable = true;
 			UIManager.Instance.checkFoodExpedition ();//checking food and water for the expedition
 			UIManager.Instance.checkWaterExpedition ();
+
+			if (isChoppingMode == true) {
+				treeChopTurns--;
+				UIManager.Instance.expInfoText.text = "Chopping down trees. \nFinished in " + treeChopTurns + " turns.";//setting exp panel text
+				if (treeChopTurns <= 0) {//if the tree tile is chopped all the way down
+					if (currentTileType.Contains("Light")) {
+						int random = Random.Range (25, 60);
+						storedWood += random;
+						UIManager.Instance.genRandTurns = false;
+						UIManager.Instance.expInfoText.enabled = false;
+						isChoppingMode = false;
+
+						if (currentTileType.Contains ("Snow")) {
+							expLocationTile.GetComponent<tileHandler> ().tileType = "Snow";
+							expLocationTile.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.GrassSnowTile;
+						} else if (currentTileType.Contains ("Stone")) {
+							expLocationTile.GetComponent<tileHandler> ().tileType = "Stone";
+							expLocationTile.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.defaultStone;
+						} else if (currentTileType.Contains ("Dirt")) {
+							expLocationTile.GetComponent<tileHandler> ().tileType = "Dirt";
+							expLocationTile.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.defaultDirt;
+						} else {
+							expLocationTile.GetComponent<tileHandler> ().tileType = "Grassland";
+							expLocationTile.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.GrassTile;
+						}
+					} else if (currentTileType.Contains("Heavy")) {
+						int random = Random.Range (50, 100);
+						storedWood += random;
+						UIManager.Instance.genRandTurns = false;
+						UIManager.Instance.expInfoText.enabled = false;
+						isChoppingMode = false;
+
+						if (currentTileType.Contains ("Snow")) {
+							expLocationTile.GetComponent<tileHandler> ().tileType = "Snow";
+							expLocationTile.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.GrassSnowTile;
+						} else if (currentTileType.Contains ("Stone")) {
+							expLocationTile.GetComponent<tileHandler> ().tileType = "Stone";
+							expLocationTile.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.defaultStone;
+						} else if (currentTileType.Contains ("Dirt")) {
+							expLocationTile.GetComponent<tileHandler> ().tileType = "Dirt";
+							expLocationTile.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.defaultDirt;
+						} else {
+							expLocationTile.GetComponent<tileHandler> ().tileType = "Grassland";
+							expLocationTile.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.GrassTile;
+						}
+					}
+				}
+			}
 
 			NewTurn = false; //ending the turn swap
 		}

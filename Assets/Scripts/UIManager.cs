@@ -62,6 +62,8 @@ public class UIManager : MonoBehaviour {
 	public Button expMoveButton;
 	public Button expEnterBaseButton;
 	public Button expChopButton;
+	public Text expInfoText;
+	public bool genRandTurns = false;
 
 	// Use this for initialization
 	void Start () {
@@ -99,6 +101,10 @@ public class UIManager : MonoBehaviour {
 		checkFoodBase ();
 		checkWaterBase ();
 		checkPeopleBase ();
+
+		if (expeditionEnabled == true) {
+			checkExpeditionButtons ();
+		}
 
 		if (arrangingExpedition == true) {
 			if (waterError == true) {//setting error text to pop up
@@ -372,6 +378,13 @@ public class UIManager : MonoBehaviour {
 
 	public void SetExpeditionMoveMode() { 
 		expeditionHandler.Instance.isMovingMode = !expeditionHandler.Instance.isMovingMode;
+
+		expInfoText.text = "In moving mode!";
+		if (expeditionHandler.Instance.isMovingMode == true) {
+			expInfoText.enabled = true;
+		} else {
+			expInfoText.enabled = false;
+		}
 	}
 
 	public void SetExpeditionEnterBaseMode() {
@@ -382,7 +395,33 @@ public class UIManager : MonoBehaviour {
 
 	public void SetExpeditionChopWoodMode() {
 		if (expeditionHandler.Instance.isAtTrees) {
+			if (genRandTurns == false) {//generating the random amount of turns it will take to chop down the tile
+				if (expeditionHandler.Instance.currentTileType.Contains("Light")) {
+					int rand = Random.Range (1, 3);
+					expeditionHandler.Instance.treeChopTurns = rand;
+					genRandTurns = true;
+				} else if (expeditionHandler.Instance.currentTileType.Contains("Heavy")) {
+					int rand = Random.Range (2, 5);
+					expeditionHandler.Instance.treeChopTurns = rand;
+					genRandTurns = true;
+				}
+			}
+
 			expeditionHandler.Instance.isChoppingMode = !expeditionHandler.Instance.isChoppingMode;
+			expInfoText.text = "Chopping down trees. \nFinished in " + expeditionHandler.Instance.treeChopTurns + " turns.";//setting exp panel text
+			if (expeditionHandler.Instance.isChoppingMode == true) {
+				expInfoText.enabled = true;
+			} else {
+				expInfoText.enabled = false;
+			}
+		}
+	}
+
+	public void checkExpeditionButtons() {
+		if (expeditionHandler.Instance.isChoppingMode == true) {
+			expMoveButton.interactable = false;
+		} else {
+			expMoveButton.interactable = true;
 		}
 	}
 

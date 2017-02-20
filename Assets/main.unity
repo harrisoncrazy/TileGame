@@ -2206,6 +2206,7 @@ MonoBehaviour:
   expMoveButton: {fileID: 30437225}
   expEnterBaseButton: {fileID: 775377871}
   expChopButton: {fileID: 1247839284}
+  expInfoText: {fileID: 2111836808}
 --- !u!4 &348910141
 Transform:
   m_ObjectHideFlags: 0
@@ -6424,13 +6425,13 @@ MonoBehaviour:
   heavyForestDirt: {fileID: 21300000, guid: 70b41cf021ce4c04784640f416d53993, type: 3}
   lightRocksDirt1: {fileID: 21300000, guid: 45399325b3c84b847b589a9d6c1be03f, type: 3}
   lightRocksDirt2: {fileID: 21300000, guid: 8d12c16cac8b7fb4e83e6f6b8e37ce07, type: 3}
-  HeavyForestSnowTile: {fileID: 21300000, guid: 6928f9172fc24f440b4e5aef9667ebdf,
+  HeavyForestSnowTile: {fileID: 21300000, guid: e83cb722163e51447a0202a31827d564,
     type: 3}
-  LightForestSnowTile: {fileID: 21300000, guid: e05948f38dbb95149b39fb475c0c0083,
+  LightForestSnowTile: {fileID: 21300000, guid: 8d64c7ead7f94b44d8b19576b94cf43d,
     type: 3}
-  GrassSnowTile: {fileID: 21300000, guid: ed26f586ba81887499ec887e6c807bfc, type: 3}
-  HeavyRockSnowTile: {fileID: 21300000, guid: 408e0c1e1b9450043941fcbfcd0af51e, type: 3}
-  LightRockSnowTile: {fileID: 21300000, guid: 17eb75504f6fee64d8cfb0c85c74f647, type: 3}
+  GrassSnowTile: {fileID: 21300000, guid: 190a700d57080264dbcd235e5afcd397, type: 3}
+  HeavyRockSnowTile: {fileID: 21300000, guid: 89f1f2ab488f19e4eb3f69ed1c570049, type: 3}
+  LightRockSnowTile: {fileID: 21300000, guid: 6957a5706a443224580431aadd3bffce, type: 3}
   defaultStone: {fileID: 21300000, guid: 08817707e2efda343adcb9d7d9c9acfa, type: 3}
   LightForestStone: {fileID: 21300000, guid: 23a31c0f155e9e94a83e8334d911fc7e, type: 3}
   HeavyForestStone: {fileID: 21300000, guid: 5d8ef99f868a2884fb839896e25afd96, type: 3}
@@ -6438,7 +6439,7 @@ MonoBehaviour:
   mountainTile: {fileID: 21300000, guid: 1a5ea41ebd4ed2340acf2f5da4106900, type: 3}
   genStepOneDone: 0
   genStepTwoDone: 0
-  mapSizeX: 150
+  mapSizeX: 100
   mapSizeY: 50
 --- !u!4 &1017993285
 Transform:
@@ -8728,6 +8729,7 @@ RectTransform:
   - {fileID: 775377870}
   - {fileID: 2001790648}
   - {fileID: 1247839283}
+  - {fileID: 2111836807}
   m_Father: {fileID: 1463704787}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9124,7 +9126,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1463704787
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13292,6 +13294,80 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2105029452}
+--- !u!1 &2111836806
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2111836807}
+  - component: {fileID: 2111836809}
+  - component: {fileID: 2111836808}
+  m_Layer: 5
+  m_Name: infoText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2111836807
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2111836806}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1368292500}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -110.98}
+  m_SizeDelta: {x: 149, y: 40.045}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2111836808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2111836806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 12
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Info Goes Here
+--- !u!222 &2111836809
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2111836806}
 --- !u!1 &2115440476
 GameObject:
   m_ObjectHideFlags: 0
