@@ -20,7 +20,8 @@ public class GameManager : MonoBehaviour {
 
 	public FoodData[] storedFood;
 	public ToolType[] storedTools;
-	public int woodStored;
+	public int woodStored = 0;
+	public int stoneStored = 0;
 
 	public struct FoodData { //storing different food types and vals associated
 		public string foodType;

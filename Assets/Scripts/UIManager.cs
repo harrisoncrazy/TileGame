@@ -25,6 +25,8 @@ public class UIManager : MonoBehaviour {
 	//Resource Texts
 	public Text foodTextResourcePanel;
 	public Text waterTextResourcePanel;
+	public Text woodTextResourcePanel;
+	public Text stoneTextResroucePanel;
 
 	//Expedition Stuff
 	//Expedition Modes
@@ -61,9 +63,13 @@ public class UIManager : MonoBehaviour {
 	public GameObject expeditionPanel;
 	public Button expMoveButton;
 	public Button expEnterBaseButton;
-	public Button expChopButton;
 	public Text expInfoText;
-	public bool genRandTurns = false;
+	//wood values
+	public Button expChopButton;
+	public bool genRandWoodTurns = false;
+	//stone values
+	public Button expMineButton;
+	public bool genRandStoneTurns = false;
 
 	// Use this for initialization
 	void Start () {
@@ -94,6 +100,7 @@ public class UIManager : MonoBehaviour {
 		expeditionPanelBase.SetActive (false);
 		expeditionPanel.SetActive (false);
 		expChopButton.interactable = false;
+		expMineButton.interactable = false;
 	}
 	
 	// Update is called once per frame
@@ -101,6 +108,7 @@ public class UIManager : MonoBehaviour {
 		checkFoodBase ();
 		checkWaterBase ();
 		checkPeopleBase ();
+		checkResourcesBase ();
 
 		if (expeditionEnabled == true) {
 			checkExpeditionButtons ();
@@ -276,6 +284,8 @@ public class UIManager : MonoBehaviour {
 				}
 				finalizingExpediton = false;
 
+				GameManager.Instance.storedFood = trimArray (GameManager.Instance.storedFood);
+
 				//Reseting input fields in the arranging expedition tab
 				expeditionWaterInput.text = null;
 				expPerson1.isOn = false;
@@ -293,6 +303,7 @@ public class UIManager : MonoBehaviour {
 				GameManager.Instance.playerPeopleNum -= expParty.expeditionPeopleNum;
 				expeditionEnabled = true;
 				waterError = true;
+				expInfoText.enabled = false;
 				arrangingExpedition = false;
 			}
 		}
@@ -332,6 +343,14 @@ public class UIManager : MonoBehaviour {
 	void checkWaterBase() {
 		int totalWaterVal = GameManager.Instance.waterStore;
 		waterTextResourcePanel.text = "" +  totalWaterVal;
+	}
+
+	void checkResourcesBase() {
+		int totalWoodVal = GameManager.Instance.woodStored;
+		woodTextResourcePanel.text = "" + totalWoodVal;
+
+		int totalStoneVal = GameManager.Instance.stoneStored;
+		stoneTextResroucePanel.text = "" + totalStoneVal;
 	}
 
 	public void ToggleResourcePanel() {
@@ -393,17 +412,17 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
-	public void SetExpeditionChopWoodMode() {
+	public void SetExpeditionChopWoodMode() {//chopping down wood
 		if (expeditionHandler.Instance.isAtTrees) {
-			if (genRandTurns == false) {//generating the random amount of turns it will take to chop down the tile
+			if (genRandWoodTurns == false) {//generating the random amount of turns it will take to chop down the tile
 				if (expeditionHandler.Instance.currentTileType.Contains("Light")) {
 					int rand = Random.Range (1, 3);
 					expeditionHandler.Instance.treeChopTurns = rand;
-					genRandTurns = true;
+					genRandWoodTurns = true;
 				} else if (expeditionHandler.Instance.currentTileType.Contains("Heavy")) {
 					int rand = Random.Range (2, 5);
 					expeditionHandler.Instance.treeChopTurns = rand;
-					genRandTurns = true;
+					genRandWoodTurns = true;
 				}
 			}
 
@@ -411,8 +430,36 @@ public class UIManager : MonoBehaviour {
 			expInfoText.text = "Chopping down trees. \nFinished in " + expeditionHandler.Instance.treeChopTurns + " turns.";//setting exp panel text
 			if (expeditionHandler.Instance.isChoppingMode == true) {
 				expInfoText.enabled = true;
+				genRandWoodTurns = false;
 			} else {
 				expInfoText.enabled = false;
+				genRandWoodTurns = false;
+			}
+		}
+	}
+
+	public void SetExpeditionMineStoneMode() {//mining stone
+		if (expeditionHandler.Instance.isAtStone) {
+			if (genRandStoneTurns == false) {//generating the random amount of turns it will take to mine the tile
+				if (expeditionHandler.Instance.currentTileType.Contains("Light")) {
+					int rand = Random.Range (1, 3);
+					expeditionHandler.Instance.stoneMineTurns = rand;
+					genRandStoneTurns = true;
+				} else if (expeditionHandler.Instance.currentTileType.Contains("Heavy")) {
+					int rand = Random.Range (2, 5);
+					expeditionHandler.Instance.stoneMineTurns = rand;
+					genRandStoneTurns = true;
+				}
+			}
+
+			expeditionHandler.Instance.isMiningMode = !expeditionHandler.Instance.isMiningMode;
+			expInfoText.text = "Mining stone. \nFinished in " + expeditionHandler.Instance.stoneMineTurns + " turns.";//setting exp panel text
+			if (expeditionHandler.Instance.isMiningMode == true) {
+				expInfoText.enabled = true;
+				genRandStoneTurns = false;
+			} else {
+				expInfoText.enabled = false;
+				genRandStoneTurns = false;
 			}
 		}
 	}
@@ -420,8 +467,25 @@ public class UIManager : MonoBehaviour {
 	public void checkExpeditionButtons() {
 		if (expeditionHandler.Instance.isChoppingMode == true) {
 			expMoveButton.interactable = false;
-		} else {
+			expMineButton.interactable = false;
+		}
+		if (expeditionHandler.Instance.hasMoved == false) {
 			expMoveButton.interactable = true;
+		}
+		if (expeditionHandler.Instance.isMiningMode == true) {
+			expMoveButton.interactable = false;
+			expChopButton.interactable = false;
+		}
+
+		if (expeditionHandler.Instance.isAtTrees == true) {
+			expChopButton.interactable = true;
+		} else {
+			expChopButton.interactable = false;
+		}
+		if (expeditionHandler.Instance.isAtStone == true) {
+			expMineButton.interactable = true;
+		} else {
+			expMineButton.interactable = false;
 		}
 	}
 
@@ -444,5 +508,19 @@ public class UIManager : MonoBehaviour {
 		if (waterError != true) {
 			finalizingExpediton = true;
 		}
+	}
+
+	GameManager.FoodData[] trimArray(GameManager.FoodData[] array) {//getting rid of the null elements in an array
+		int j = 0;
+		GameManager.FoodData[] tempArray = new GameManager.FoodData[32];//creating temp array
+		for (int i = 0; i <= array.Length -1 ; i++) {//cycling through, and only transferring over the non null elements
+			if (array [i].foodType == null) {
+				continue;
+			}
+			tempArray [j] = array [i];
+			j++;
+		} 
+
+		return tempArray;
 	}
 }
