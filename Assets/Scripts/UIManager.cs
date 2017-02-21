@@ -468,13 +468,18 @@ public class UIManager : MonoBehaviour {
 		if (expeditionHandler.Instance.isChoppingMode == true) {
 			expMoveButton.interactable = false;
 			expMineButton.interactable = false;
-		}
-		if (expeditionHandler.Instance.hasMoved == false) {
-			expMoveButton.interactable = true;
+		} else {
+			if (expeditionHandler.Instance.hasMoved == false) {
+				expMoveButton.interactable = true;
+			}
 		}
 		if (expeditionHandler.Instance.isMiningMode == true) {
 			expMoveButton.interactable = false;
 			expChopButton.interactable = false;
+		} else { 
+			if (expeditionHandler.Instance.hasMoved == false) {
+				expMoveButton.interactable = true;
+			}
 		}
 
 		if (expeditionHandler.Instance.isAtTrees == true) {
