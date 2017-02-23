@@ -82,6 +82,10 @@ public class GameManager : MonoBehaviour {
 						storedFood [0].foodType = "1/2 Bread";
 						storedFood [0].foodVal = 2;
 						neededFood -= 2;
+					} else if (storedFood [0].foodType == "Boar Meat") {//if it is bread it gets swaped to half boar meat
+						storedFood [0].foodType = "1/2 Boar Meat";
+						storedFood [0].foodVal = 2;
+						neededFood -= 2;
 					}
 				} else if (storedFood [0].foodVal <= neededFood) {
 					int tempVal;

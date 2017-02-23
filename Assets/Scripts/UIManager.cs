@@ -70,6 +70,8 @@ public class UIManager : MonoBehaviour {
 	//stone values
 	public Button expMineButton;
 	public bool genRandStoneTurns = false;
+	//food values
+	public Button expGatherButton;
 
 	// Use this for initialization
 	void Start () {
@@ -101,6 +103,7 @@ public class UIManager : MonoBehaviour {
 		expeditionPanel.SetActive (false);
 		expChopButton.interactable = false;
 		expMineButton.interactable = false;
+		expGatherButton.interactable = false;
 	}
 	
 	// Update is called once per frame
@@ -464,10 +467,26 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
+	public void SetExpeditionGatherFoodMode() {
+		if (expeditionHandler.Instance.isAtFood) {
+			expeditionHandler.Instance.isFoodMode = !expeditionHandler.Instance.isFoodMode;
+			expeditionHandler.Instance.foodGatherTurns = 1;
+			expInfoText.text = "Scavenging for Food. \nFinished in " + expeditionHandler.Instance.foodGatherTurns + " turns.";//setting exp panel text
+			if (expeditionHandler.Instance.isFoodMode == true) {
+				expInfoText.enabled = true;
+
+			} else {
+				expInfoText.enabled = false;
+
+			}
+		}
+	}
+
 	public void checkExpeditionButtons() {
 		if (expeditionHandler.Instance.isChoppingMode == true) {
 			expMoveButton.interactable = false;
 			expMineButton.interactable = false;
+			expGatherButton.interactable = false;
 		} else {
 			if (expeditionHandler.Instance.hasMoved == false) {
 				expMoveButton.interactable = true;
@@ -476,6 +495,16 @@ public class UIManager : MonoBehaviour {
 		if (expeditionHandler.Instance.isMiningMode == true) {
 			expMoveButton.interactable = false;
 			expChopButton.interactable = false;
+			expGatherButton.interactable = false;
+		} else { 
+			if (expeditionHandler.Instance.hasMoved == false) {
+				expMoveButton.interactable = true;
+			}
+		}
+		if (expeditionHandler.Instance.isFoodMode == true) {
+			expMoveButton.interactable = false;
+			expChopButton.interactable = false;
+			expMineButton.interactable = false;
 		} else { 
 			if (expeditionHandler.Instance.hasMoved == false) {
 				expMoveButton.interactable = true;
@@ -491,6 +520,11 @@ public class UIManager : MonoBehaviour {
 			expMineButton.interactable = true;
 		} else {
 			expMineButton.interactable = false;
+		}
+		if (expeditionHandler.Instance.isAtFood == true) {
+			expGatherButton.interactable = true;
+		} else {
+			expGatherButton.interactable = false;
 		}
 	}
 

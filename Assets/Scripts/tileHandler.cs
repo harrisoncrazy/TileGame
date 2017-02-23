@@ -97,8 +97,7 @@ public class tileHandler : MonoBehaviour {
 						tileOutlineSprite.SetActive (true);
 					}
 				} 
-			}
-			if (UIManager.Instance.expeditionEnabled == true) {//seeing if the expedition is in moving mode or not
+			} else if (UIManager.Instance.expeditionEnabled == true) {//seeing if the expedition is in moving mode or not
 				if (expeditionHandler.Instance.isMovingMode == false) {
 					if (selected && transform == trSelect) {
 						selected = false;
@@ -109,11 +108,14 @@ public class tileHandler : MonoBehaviour {
 						GameManager.Instance.selectedTile = this.transform;
 						tileOutlineSprite.SetActive (true);
 					}
-				}
-				if (expeditionHandler.Instance.isMovingMode == true) {
-					expeditionHandler.Instance.expLocationTile = this.gameObject;
-					expeditionHandler.Instance.targetPos = transform.position;
-					expeditionHandler.Instance.isMoving = true;
+				} else if (expeditionHandler.Instance.isMovingMode == true) {
+					if (tileType != "Ocean") {
+						if (Vector3.Distance (this.transform.position, expeditionHandler.Instance.expLocationTile.transform.position) <= 7.4f) {
+							expeditionHandler.Instance.expLocationTile = this.gameObject;
+							expeditionHandler.Instance.targetPos = transform.position;
+							expeditionHandler.Instance.isMoving = true;
+						}
+					}
 				}
 			}
 		}

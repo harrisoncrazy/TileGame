@@ -42,7 +42,7 @@ public class expeditionHandler : MonoBehaviour {
 	}
 	private ExpeditionFoodData temp; //temp val for swapping food variables
 
-	public ExpeditionFoodData[] storedFood = new ExpeditionFoodData[9];
+	public ExpeditionFoodData[] storedFood = new ExpeditionFoodData[32];
 	public ExpeditionToolType[] storedTools;
 
 	public int storedWood;
@@ -59,10 +59,15 @@ public class expeditionHandler : MonoBehaviour {
 	public bool isChoppingMode = false;
 	public int treeChopTurns;
 
-	//valumes for gathering stone
+	//values for gathering stone
 	public bool isAtStone = false;
 	public bool isMiningMode = false;
 	public int stoneMineTurns;
+
+	//values for gaterhing food
+	public bool isAtFood = false;
+	public bool isFoodMode = false;
+	public int foodGatherTurns = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -110,81 +115,103 @@ public class expeditionHandler : MonoBehaviour {
 			isAtHome = true;
 			isAtTrees = false;
 			isAtStone = false;
+			isAtFood = false;
+			break;
+		case "Grassland":
+			isAtHome = false;
+			isAtTrees = true;
+			isAtStone = false;
+			isAtFood = true;
 			break;
 		case "Heavy Forest":
 			isAtHome = false;
 			isAtTrees = true;
 			isAtStone = false;
+			isAtFood = true;
 			break;
 		case "Light Forest":
 			isAtHome = false;
 			isAtTrees = true;
 			isAtStone = false;
+			isAtFood = true;
 			break;
 		case "Heavy Forest Snow":
 			isAtHome = false;
 			isAtTrees = true;
 			isAtStone = false;
+			isAtFood = false;
 			break;
 		case "Light Forest Snow":
 			isAtHome = false;
 			isAtTrees = true;
 			isAtStone = false;
+			isAtFood = false;
 			break;
 		case "Heavy Forest Stone":
 			isAtHome = false;
 			isAtTrees = true;
 			isAtStone = false;
+			isAtFood = false;
 			break;
 		case "Light Forest Stone":
 			isAtHome = false;
 			isAtTrees = true;
 			isAtStone = false;
+			isAtFood = false;
 			break;
 		case "Light Forest Dirt":
 			isAtHome = false;
 			isAtTrees = true;
 			isAtStone = false;
+			isAtFood = false;
 			break;
 		case "Heavy Forest Dirt":
 			isAtHome = false;
 			isAtTrees = true;
 			isAtStone = false;
+			isAtFood = false;
 			break;
 		case "Light Rocks":
 			isAtHome = false;
 			isAtTrees = false;
 			isAtStone = true;
+			isAtFood = false;
 			break;
 		case "Heavy Rocks":
 			isAtHome = false;
 			isAtTrees = false;
 			isAtStone = true;
+			isAtFood = false;
 			break;
 		case "Light Rocks Sand":
 			isAtHome = false;
 			isAtTrees = false;
 			isAtStone = true;
+			isAtFood = false;
 			break;
 		case "Light Rocks Dirt":
 			isAtHome = false;
 			isAtTrees = false;
 			isAtStone = true;
+			isAtFood = false;
 			break;
 		case "Light Rocks Snow":
 			isAtHome = false;
 			isAtTrees = false;
 			isAtStone = true;
+			isAtFood = false;
 			break;
 		case "Heavy Rocks Snow":
 			isAtHome = false;
 			isAtTrees = false;
 			isAtStone = true;
+			isAtFood = false;
 			break;
 		default:
 			isAtTrees = false;
 			isAtHome = false;
 			isAtStone = false;
+			isAtFood = false;
 			break;
 		}
 
@@ -228,6 +255,10 @@ public class expeditionHandler : MonoBehaviour {
 						storedFood [0].foodType = "1/2 Bread";
 						storedFood [0].foodVal = 2;
 						neededFood -= 2;
+					} else if (storedFood [0].foodType == "Boar Meat") {//if it is bread it gets swaped to half boar meat
+						storedFood [0].foodType = "1/2 Boar Meat";
+						storedFood [0].foodVal = 2;
+						neededFood -= 2;
 					}
 				} else if (storedFood [0].foodVal <= neededFood) {
 					int tempVal;
@@ -245,13 +276,6 @@ public class expeditionHandler : MonoBehaviour {
 					neededFood -= 2;
 				}
 			}
-
-
-			ExpeditionWaterStore -= expeditionPeopleNum * 4; //subtracting needed water
-			hasMoved = false;//allowing movement next turn
-			UIManager.Instance.expMoveButton.interactable = true;
-			UIManager.Instance.checkFoodExpedition ();//checking food and water for the expedition
-			UIManager.Instance.checkWaterExpedition ();
 
 			if (isChoppingMode == true) {
 				treeChopTurns--;
@@ -354,6 +378,96 @@ public class expeditionHandler : MonoBehaviour {
 					}
 				}
 			}
+
+			if (isFoodMode == true) {
+				foodGatherTurns--;
+				UIManager.Instance.expInfoText.text = "Scavenging for Food. \nFinished in " + foodGatherTurns + " turns.";//setting exp panel text
+
+				if (foodGatherTurns <= 0) {//selecting a random food to add to the expedition
+					int random = Random.Range (0, 100);
+
+					isFoodMode = false;
+					if (random <= 25) {//finding small amount of berries (4 total food score, seperated too 2 items)
+						int numToAdd = 2;
+						for (int i = 0; i <= storedFood.Length - 1; i++) {
+							if (numToAdd >= 0) {
+								if (storedFood [i].foodVal == 0) {
+									storedFood [i].foodType = "Berries";
+									storedFood [i].foodVal = 2;
+									numToAdd--;
+								}
+							}
+						}
+						UIManager.Instance.expInfoText.text = "Scavenging finished. \nFound a small amount of berries.";//setting exp panel text
+					} else if (random >= 25 && random <= 50) {//finding large amount of berries (8 total food score, seperated to 4 items)
+						int numToAdd = 4;
+						for (int i = 0; i <= storedFood.Length - 1; i++) {
+							if (numToAdd >= 0) {
+								if (storedFood [i].foodVal == 0) {
+									storedFood [i].foodType = "Berries";
+									storedFood [i].foodVal = 2;
+									numToAdd--;
+								}
+							}
+						}
+						UIManager.Instance.expInfoText.text = "Scavenging finished. \nFound a large amount of berries.";//setting exp panel text
+					} else if (random >= 50 && random <= 75) {//finding small amount of small game (6 total food score, seperated to 2 items worth 2 and 4)
+						int numToAdd = 2;
+						for (int i = 0; i >= storedFood.Length - 1; i++) {
+							if (numToAdd == 1) {
+								if (storedFood [i].foodVal == 0) {
+									storedFood [i].foodType = "Squirrel Meat";
+									storedFood [i].foodVal = 2;
+									numToAdd--;
+								}
+							} else if (numToAdd == 2) {
+								if (storedFood [i].foodVal == 0) {
+									storedFood [i].foodType = "Boar Meat";
+									storedFood [i].foodVal = 4;
+									numToAdd--;
+								}
+							}
+						}
+						UIManager.Instance.expInfoText.text = "Scavenging finished. \nFound and hunted some small game.";//setting exp panel text
+					} else if (random >= 75 && random <= 100) {//finding larg amount of small game (12 total food score, seperated into 4 items, 2 worth 2, 2 worth 4)
+						int numToAdd = 4;
+						for (int i = 0; i <= storedFood.Length - 1; i++) {
+							if (numToAdd == 1) {
+								if (storedFood [i].foodVal == 0) {
+									storedFood [i].foodType = "Squirrel Meat";
+									storedFood [i].foodVal = 2;
+									numToAdd--;
+								}
+							} else if (numToAdd == 2) {
+								if (storedFood [i].foodVal == 0) {
+									storedFood [i].foodType = "Squirrel Meat";
+									storedFood [i].foodVal = 2;
+									numToAdd--;
+								}
+							} else if (numToAdd == 3) {
+								if (storedFood [i].foodVal == 0) {
+									storedFood [i].foodType = "Boar Meat";
+									storedFood [i].foodVal = 4;
+									numToAdd--;
+								}
+							} else if (numToAdd == 4) {
+								if (storedFood [i].foodVal == 0) {
+									storedFood [i].foodType = "Boar Meat";
+									storedFood [i].foodVal = 4;
+									numToAdd--;
+								}
+							}
+						}
+						UIManager.Instance.expInfoText.text = "Scavenging finished. \nFound plentiful small game!";//setting exp panel text
+					}
+				}
+			}
+
+			ExpeditionWaterStore -= expeditionPeopleNum * 4; //subtracting needed water
+			hasMoved = false;//allowing movement next turn
+			UIManager.Instance.expMoveButton.interactable = true;
+			UIManager.Instance.checkFoodExpedition ();//checking food and water for the expedition
+			UIManager.Instance.checkWaterExpedition ();
 
 			NewTurn = false; //ending the turn swap
 		}
