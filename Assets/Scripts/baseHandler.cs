@@ -7,20 +7,48 @@ public class baseHandler : MonoBehaviour {
 	public static baseHandler Instance;
 	public GameObject cityUIScreen;
 
+	public GameObject tileHighlighter;
+
 	public Vector3 baseLocation;
 
 	public bool toggleCityUI = false;
+
+	private float distToPlayer;
 
 	// Use this for initialization
 	void Start () {
 		Instance = this;
 		cityUIScreen = GameObject.Find ("cityPanel");
 		cityUIScreen.SetActive (false);
+
+		tileHighlighter.GetComponent<SpriteRenderer> ().color = new Color (200f, 0f, 0f, .65f);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if (UIManager.Instance.expeditionEnabled == true) {
+			distToPlayer = Vector3.Distance (expeditionHandler.Instance.transform.position, transform.position);
+
+			if (expeditionHandler.Instance.isMovingMode == true && expeditionHandler.Instance.isMoving == false) {
+				if (distToPlayer <= 7.4f) {
+					tileHighlighter.SetActive (true);
+				} else {
+					tileHighlighter.SetActive (false);
+				}
+			}
+
+			if (expeditionHandler.Instance.isMovingMode == false) {
+				if (tileHighlighter.activeInHierarchy == true) {
+					tileHighlighter.SetActive (false);
+				}
+			}
+
+			if (expeditionHandler.Instance.hasMoved == true) {
+				if (tileHighlighter.activeInHierarchy == true) {
+					tileHighlighter.SetActive (false);
+				}
+			}
+		}
 	}
 
 	void OnMouseDown() {

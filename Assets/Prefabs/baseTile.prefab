@@ -228,6 +228,7 @@ MonoBehaviour:
   newSpriteSet: 0
   discovered: 0
   inSight: 0
+  isNearWater: 0
 --- !u!212 &212000012688434042
 SpriteRenderer:
   m_ObjectHideFlags: 1

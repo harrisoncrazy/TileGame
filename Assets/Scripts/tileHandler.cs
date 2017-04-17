@@ -35,11 +35,9 @@ public class tileHandler : MonoBehaviour {
 	public bool discovered = false;
 	public bool inSight = false;
 
-<<<<<<< HEAD
 	private float distToPlayer;
-=======
+
 	public bool isNearWater = false; //if the tile is close by to water
->>>>>>> origin/master
 
 	// Use this for initialization
 	void Start () {
@@ -87,25 +85,27 @@ public class tileHandler : MonoBehaviour {
 			tileGreyed.SetActive (false);
 
 			if (UIManager.Instance.expeditionEnabled == true) {
-				distToPlayer = Vector3.Distance (expeditionHandler.Instance.transform.position, transform.position);
+				if (tileType != "Ocean") {
+					distToPlayer = Vector3.Distance (expeditionHandler.Instance.transform.position, transform.position);
 
-				if (expeditionHandler.Instance.isMovingMode == true && expeditionHandler.Instance.isMoving == false) {
-					if (distToPlayer <= 7.4f) {
-						tileHighlighter.SetActive (true);
-					} else {
-						tileHighlighter.SetActive (false);
+					if (expeditionHandler.Instance.isMovingMode == true && expeditionHandler.Instance.isMoving == false) {
+						if (distToPlayer <= 7.4f) {
+							tileHighlighter.SetActive (true);
+						} else {
+							tileHighlighter.SetActive (false);
+						}
 					}
-				}
 
-				if (expeditionHandler.Instance.isMovingMode == false) {
-					if (tileHighlighter.activeInHierarchy == true) {
-						tileHighlighter.SetActive (false);
+					if (expeditionHandler.Instance.isMovingMode == false) {
+						if (tileHighlighter.activeInHierarchy == true) {
+							tileHighlighter.SetActive (false);
+						}
 					}
-				}
 
-				if (expeditionHandler.Instance.hasMoved == true) {
-					if (tileHighlighter.activeInHierarchy == true) {
-						tileHighlighter.SetActive (false);
+					if (expeditionHandler.Instance.hasMoved == true) {
+						if (tileHighlighter.activeInHierarchy == true) {
+							tileHighlighter.SetActive (false);
+						}
 					}
 				}
 			}
