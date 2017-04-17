@@ -39,10 +39,16 @@ public class UIManager : MonoBehaviour {
 	public Toggle expPerson2;
 	public Toggle expPerson3;
 	public Toggle expPerson4;
+	public Toggle expPerson5;
+	public Toggle expPerson6;
+	public Toggle expPerson7;
 	public Text expPerson1Text;
 	public Text expPerson2Text;
 	public Text expPerson3Text;
 	public Text expPerson4Text;
+	public Text expPerson5Text;
+	public Text expPerson6Text;
+	public Text expPerson7Text;
 
 	//Water stores for expedition handler
 	public InputField expeditionWaterInput;
@@ -75,6 +81,22 @@ public class UIManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		expPerson1 = GameObject.Find("expPerson1").GetComponent<Toggle>();
+		expPerson2 = GameObject.Find("expPerson2").GetComponent<Toggle>();
+		expPerson3 = GameObject.Find("expPerson3").GetComponent<Toggle>();
+		expPerson4 = GameObject.Find("expPerson4").GetComponent<Toggle>();
+		expPerson5 = GameObject.Find("expPerson5").GetComponent<Toggle>();
+		expPerson6 = GameObject.Find("expPerson6").GetComponent<Toggle>();
+		expPerson7 = GameObject.Find("expPerson7").GetComponent<Toggle>();
+
+		expPerson1Text = GameObject.Find("expPersonText1").GetComponent<Text>();
+		expPerson2Text = GameObject.Find("expPersonText2").GetComponent<Text>();
+		expPerson3Text = GameObject.Find("expPersonText3").GetComponent<Text>();
+		expPerson4Text = GameObject.Find("expPersonText4").GetComponent<Text>();
+		expPerson5Text = GameObject.Find("expPersonText5").GetComponent<Text>();
+		expPerson6Text = GameObject.Find("expPersonText6").GetComponent<Text>();
+		expPerson7Text = GameObject.Find("expPersonText7").GetComponent<Text>();
+
 		Instance = this;
 		//City Panel UI Stuff
 		peopleTexts = new Text[7];
@@ -129,6 +151,9 @@ public class UIManager : MonoBehaviour {
 			expPerson2.gameObject.SetActive (true);
 			expPerson3.gameObject.SetActive (true);
 			expPerson4.gameObject.SetActive (true);
+			expPerson5.gameObject.SetActive (true);
+			expPerson6.gameObject.SetActive (true);
+			expPerson7.gameObject.SetActive (true);
 
 			if (GameManager.Instance.playerPeople [0] == "") {
 				expPerson1.gameObject.SetActive (false);
@@ -142,11 +167,23 @@ public class UIManager : MonoBehaviour {
 			if (GameManager.Instance.playerPeople [3] == "") {
 				expPerson4.gameObject.SetActive (false);
 			} 
+			if (GameManager.Instance.playerPeople [4] == "") {
+				expPerson5.gameObject.SetActive (false);
+			} 
+			if (GameManager.Instance.playerPeople [5] == "") {
+				expPerson6.gameObject.SetActive (false);
+			} 
+			if (GameManager.Instance.playerPeople [6] == "") {
+				expPerson7.gameObject.SetActive (false);
+			} 
 
 			expPerson1Text.text = GameManager.Instance.playerPeople [0];
 			expPerson2Text.text = GameManager.Instance.playerPeople [1];
 			expPerson3Text.text = GameManager.Instance.playerPeople [2];
 			expPerson4Text.text = GameManager.Instance.playerPeople [3];
+			expPerson5Text.text = GameManager.Instance.playerPeople [4];
+			expPerson6Text.text = GameManager.Instance.playerPeople [5];
+			expPerson7Text.text = GameManager.Instance.playerPeople [6];
 
 			//Setting the food of the expedition panel
 			foodToggles[0].gameObject.SetActive(true);
@@ -223,6 +260,21 @@ public class UIManager : MonoBehaviour {
 					expParty.expeditionPeople[3] = GameManager.Instance.playerPeople [3];
 					expParty.expeditionPeopleNum++;
 					GameManager.Instance.playerPeople [3] = "";
+				}
+				if (expPerson5.isOn == true) {//if the person toggle is turned on, move them to the expedition
+					expParty.expeditionPeople [4] = GameManager.Instance.playerPeople [4];
+					expParty.expeditionPeopleNum++;
+					GameManager.Instance.playerPeople [4] = "";
+				}
+				if (expPerson6.isOn == true) {
+					expParty.expeditionPeople[5] = GameManager.Instance.playerPeople [5];
+					expParty.expeditionPeopleNum++;
+					GameManager.Instance.playerPeople [5] = "";
+				}
+				if (expPerson7.isOn == true) {
+					expParty.expeditionPeople[6] = GameManager.Instance.playerPeople [6];
+					expParty.expeditionPeopleNum++;
+					GameManager.Instance.playerPeople [6] = "";
 				}
 
 				if (foodToggles [0].isOn == true) {//if the food toggle is on, move it to the expedition
@@ -378,8 +430,10 @@ public class UIManager : MonoBehaviour {
 	//Checking the expedition party values
 	public void checkPeopleExpedition() {
 		string output = "";
-		for (int i = 0; i <= 3; i++) {
-			output += expeditionHandler.Instance.expeditionPeople [i] + "\n";
+		for (int i = 0; i <= 6; i++) {
+			if (expeditionHandler.Instance.expeditionPeople [i] != "") {
+				output += expeditionHandler.Instance.expeditionPeople [i] + "\n";
+			}
 		}
 		expeditionPeoplePrint.text = output;
 	}

@@ -13,7 +13,7 @@ public class generationManager : MonoBehaviour {
 
 	public GameObject objToDelete;
 
-	private bool homePlaced = false;
+	public bool homePlaced = false;
 
 	//Grass tile sprites
 	public Sprite HeavyForestTile;

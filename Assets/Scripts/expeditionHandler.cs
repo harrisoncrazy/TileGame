@@ -24,7 +24,7 @@ public class expeditionHandler : MonoBehaviour {
 	public bool hasMoved = false; //if the expedition has moved this turn
 	public bool isAtHome = false; //if the expedtion is at the home tile
 
-	public string[] expeditionPeople = new string[4];//names of people in expedition
+	public string[] expeditionPeople = new string[7];//names of people in expedition
 	public int expeditionPeopleNum; //number of people in expediton
 
 	public bool isMoving = false;//if the expedition is currently moving
@@ -231,7 +231,7 @@ public class expeditionHandler : MonoBehaviour {
 			GameManager.Instance.woodStored += storedWood;
 			GameManager.Instance.stoneStored += storedStone;
 		
-			for (int i = 0; i <= 3; i++) {//putting the people back into the base
+			for (int i = 0; i <= 6; i++) {//putting the people back into the base
 				if (expeditionPeople [i] != "") {
 					GameManager.Instance.playerPeople [i] = expeditionPeople [i];
 					GameManager.Instance.playerPeopleNum++;

@@ -6,6 +6,7 @@ public class tileHandler : MonoBehaviour {
 	public GameObject tileOutlineSprite; //gameobject of highlight Sprite
 	public GameObject tileBlacked;
 	public GameObject tileGreyed;
+	public GameObject tileHighlighter;
 
 	public CircleCollider2D colliderMain;
 	public bool shutdown = false;
@@ -34,11 +35,14 @@ public class tileHandler : MonoBehaviour {
 	public bool discovered = false;
 	public bool inSight = false;
 
+	private float distToPlayer;
+
 	// Use this for initialization
 	void Start () {
 		sr = GetComponent<SpriteRenderer> ();
 		colliderMain = gameObject.GetComponent<CircleCollider2D> ();
 		tileGreyed.GetComponent<SpriteRenderer> ().color = new Color (1f, 1f, 1f, .75f);
+		tileHighlighter.GetComponent<SpriteRenderer> ().color = new Color (200f, 0f, 0f, .65f);
 	}
 
 	// Update is called once per frame
@@ -53,9 +57,11 @@ public class tileHandler : MonoBehaviour {
 		}
 
 		if (shutdown == true) {
-			if (baseHandler.Instance.toggleCityUI == true) {
-				selected = false;
-				tileOutlineSprite.SetActive (false);
+			if (generationManager.Instance.homePlaced == true) {
+				if (baseHandler.Instance.toggleCityUI == true) {
+					selected = false;
+					tileOutlineSprite.SetActive (false);
+				}
 			}
 		}
 
@@ -75,6 +81,30 @@ public class tileHandler : MonoBehaviour {
 			tileGreyed.SetActive (true);
 		} else if (inSight == true) {
 			tileGreyed.SetActive (false);
+
+			if (UIManager.Instance.expeditionEnabled == true) {
+				distToPlayer = Vector3.Distance (expeditionHandler.Instance.transform.position, transform.position);
+
+				if (expeditionHandler.Instance.isMovingMode == true && expeditionHandler.Instance.isMoving == false) {
+					if (distToPlayer <= 7.4f) {
+						tileHighlighter.SetActive (true);
+					} else {
+						tileHighlighter.SetActive (false);
+					}
+				}
+
+				if (expeditionHandler.Instance.isMovingMode == false) {
+					if (tileHighlighter.activeInHierarchy == true) {
+						tileHighlighter.SetActive (false);
+					}
+				}
+
+				if (expeditionHandler.Instance.hasMoved == true) {
+					if (tileHighlighter.activeInHierarchy == true) {
+						tileHighlighter.SetActive (false);
+					}
+				}
+			}
 		}
 	}
 

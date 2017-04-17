@@ -110,4 +110,9 @@ public class GameManager : MonoBehaviour {
 			NewTurn = false; //ending the turn swap
 		}
 	}
+
+	public void addPartyMember() {
+		int firstEmpty = System.Array.IndexOf (playerPeople, "");
+		playerPeople [firstEmpty] = "Testmen";
+	}
 }

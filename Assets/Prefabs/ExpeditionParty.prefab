@@ -124,7 +124,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1894606020349026}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -25.39368, y: 46.313255, z: 0}
+  m_LocalPosition: {x: -65.85394, y: 364.53387, z: 0}
   m_LocalScale: {x: 0.3017235, y: 0.3017235, z: 0.3017235}
   m_Children:
   - {fileID: 4405654800446664}
@@ -206,9 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 562796ec581064748a5b18634ab91b74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderGen: {fileID: 1702035004942852, guid: 4ed3e53195864c84eb0cd7adc7b0b2ac,
-    type: 2}
   expOutline: {fileID: 1828906753611492}
+  expLocationTile: {fileID: 0}
+  currentTileType: 
   expLocation: {x: 0, y: 0, z: 0}
   NewTurn: 0
   isSelectedMode: 0
@@ -220,12 +220,26 @@ MonoBehaviour:
   - 
   - 
   - 
+  - 
+  - 
+  - 
   expeditionPeopleNum: 0
   isMoving: 0
   targetPos: {x: 0, y: 0, z: 0}
+  storedWood: 0
+  storedStone: 0
   ExpeditionWaterStore: 0
   reEnteringBase: 0
   isEnterBaseMode: 0
+  isAtTrees: 0
+  isChoppingMode: 0
+  treeChopTurns: 0
+  isAtStone: 0
+  isMiningMode: 0
+  stoneMineTurns: 0
+  isAtFood: 0
+  isFoodMode: 0
+  foodGatherTurns: 1
 --- !u!212 &212241146984940876
 SpriteRenderer:
   m_ObjectHideFlags: 1
