@@ -78,6 +78,8 @@ public class UIManager : MonoBehaviour {
 	public bool genRandStoneTurns = false;
 	//food values
 	public Button expGatherButton;
+	//water values
+	public Button expWaterButton;
 
 	// Use this for initialization
 	void Start () {
@@ -126,6 +128,7 @@ public class UIManager : MonoBehaviour {
 		expChopButton.interactable = false;
 		expMineButton.interactable = false;
 		expGatherButton.interactable = false;
+		expWaterButton.interactable = false;
 	}
 	
 	// Update is called once per frame
@@ -536,11 +539,27 @@ public class UIManager : MonoBehaviour {
 		}
 	}
 
+	public void SetExpeditionGatherWaterMode() {
+		if (expeditionHandler.Instance.isAtWater) {
+			expeditionHandler.Instance.isWaterMode = !expeditionHandler.Instance.isWaterMode;
+			expeditionHandler.Instance.waterGatherTurns = 1;
+			expInfoText.text = "Gathering Water. \nFinished in " + expeditionHandler.Instance.waterGatherTurns + " turns.";//setting exp panel text
+			if (expeditionHandler.Instance.isWaterMode == true) {
+				expInfoText.enabled = true;
+
+			} else {
+				expInfoText.enabled = false;
+
+			}
+		}
+	}
+
 	public void checkExpeditionButtons() {
 		if (expeditionHandler.Instance.isChoppingMode == true) {
 			expMoveButton.interactable = false;
 			expMineButton.interactable = false;
 			expGatherButton.interactable = false;
+			expWaterButton.interactable = false;
 		} else {
 			if (expeditionHandler.Instance.hasMoved == false) {
 				expMoveButton.interactable = true;
@@ -550,6 +569,7 @@ public class UIManager : MonoBehaviour {
 			expMoveButton.interactable = false;
 			expChopButton.interactable = false;
 			expGatherButton.interactable = false;
+			expWaterButton.interactable = false;
 		} else { 
 			if (expeditionHandler.Instance.hasMoved == false) {
 				expMoveButton.interactable = true;
@@ -559,26 +579,72 @@ public class UIManager : MonoBehaviour {
 			expMoveButton.interactable = false;
 			expChopButton.interactable = false;
 			expMineButton.interactable = false;
+			expWaterButton.interactable = false;
 		} else { 
 			if (expeditionHandler.Instance.hasMoved == false) {
 				expMoveButton.interactable = true;
 			}
 		}
+		if (expeditionHandler.Instance.isWaterMode == true) {
+			expMoveButton.interactable = false;
+			expChopButton.interactable = false;
+			expGatherButton.interactable = false;
+			expMineButton.interactable = false;
+		} else {
+			if (expeditionHandler.Instance.hasMoved == false) {
+				expMoveButton.interactable = true;
+			}
+		}
+
 
 		if (expeditionHandler.Instance.isAtTrees == true) {
-			expChopButton.interactable = true;
+			if (expeditionHandler.Instance.isFoodMode != true) {
+				if (expeditionHandler.Instance.isWaterMode != true) {
+					if (expeditionHandler.Instance.isMiningMode != true) {
+						expChopButton.interactable = true;
+					}
+				}
+			} else {
+				expChopButton.interactable = false;
+			}
 		} else {
 			expChopButton.interactable = false;
 		}
+
 		if (expeditionHandler.Instance.isAtStone == true) {
-			expMineButton.interactable = true;
+			if (expeditionHandler.Instance.isChoppingMode != true) {
+				if (expeditionHandler.Instance.isWaterMode != true) {
+					if (expeditionHandler.Instance.isFoodMode != true) {
+						expMineButton.interactable = true;
+					}
+				}
+			}
 		} else {
 			expMineButton.interactable = false;
 		}
+
 		if (expeditionHandler.Instance.isAtFood == true) {
-			expGatherButton.interactable = true;
+			if (expeditionHandler.Instance.isChoppingMode != true) {
+				if (expeditionHandler.Instance.isWaterMode != true) {
+					if (expeditionHandler.Instance.isMiningMode != true) {
+						expGatherButton.interactable = true;
+					}
+				}
+			}
 		} else {
 			expGatherButton.interactable = false;
+		}
+			
+		if (expeditionHandler.Instance.isAtWater == true) {
+			if (expeditionHandler.Instance.isChoppingMode != true) {
+				if (expeditionHandler.Instance.isFoodMode != true) {
+					if (expeditionHandler.Instance.isMiningMode != true) {
+						expWaterButton.interactable = true;
+					}
+				}
+			}
+		} else {
+			expWaterButton.interactable = false;
 		}
 	}
 

@@ -69,6 +69,11 @@ public class expeditionHandler : MonoBehaviour {
 	public bool isFoodMode = false;
 	public int foodGatherTurns = 1;
 
+	//values for gathering water
+	public bool isAtWater = false;
+	public bool isWaterMode = false;
+	public int waterGatherTurns = 1;
+
 	// Use this for initialization
 	void Start () {
 		Instance = this;
@@ -213,6 +218,15 @@ public class expeditionHandler : MonoBehaviour {
 			isAtStone = false;
 			isAtFood = false;
 			break;
+		}
+
+		//setting if the expedition is at water
+		if (currentTileType != "Home Base") {
+			if (expLocationTile.GetComponent<tileHandler> ().isNearWater == true) {
+				isAtWater = true;
+			} else {
+				isAtWater = false;
+			}
 		}
 
 		if (isEnterBaseMode == true) {//entering the base, offloading food and people values
@@ -460,6 +474,37 @@ public class expeditionHandler : MonoBehaviour {
 						}
 						UIManager.Instance.expInfoText.text = "Scavenging finished. \nFound plentiful small game!";//setting exp panel text
 					}
+					isFoodMode = false;
+				}
+			}
+
+			if (isWaterMode == true) {
+				waterGatherTurns--;
+				UIManager.Instance.expInfoText.text = "Gathering Water. \nFinished in " + waterGatherTurns + " turns.";//setting exp panel text
+
+				if (waterGatherTurns <= 0) {
+					int random = Random.Range (1, 4);
+
+					switch (random) {
+					case(1):
+						ExpeditionWaterStore += 6;
+						UIManager.Instance.expInfoText.text = "Gathering finished. \nFound a small amount of water.";//setting exp panel text
+						break;
+					case(2):
+						ExpeditionWaterStore += 8;
+						UIManager.Instance.expInfoText.text = "Gathering finished. \nFound a decent amount of water.";//setting exp panel text
+						break;
+					case(3):
+						ExpeditionWaterStore += 12;
+						UIManager.Instance.expInfoText.text = "Gathering finished. \nFound a large amount of water.";//setting exp panel text
+						break;
+					case(4):
+						ExpeditionWaterStore += 16;
+						UIManager.Instance.expInfoText.text = "Gathering finished. \nFound a huge amount of water!";//setting exp panel text
+						break;
+					}
+
+					isWaterMode = false;
 				}
 			}
 

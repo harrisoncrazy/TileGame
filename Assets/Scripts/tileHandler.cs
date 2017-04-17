@@ -35,7 +35,11 @@ public class tileHandler : MonoBehaviour {
 	public bool discovered = false;
 	public bool inSight = false;
 
+<<<<<<< HEAD
 	private float distToPlayer;
+=======
+	public bool isNearWater = false; //if the tile is close by to water
+>>>>>>> origin/master
 
 	// Use this for initialization
 	void Start () {
@@ -210,7 +214,7 @@ public class tileHandler : MonoBehaviour {
 					}
 				}
 
-				if (adjacentOcean == true) {//setting any adjacent tiles to sand tiles
+				if (adjacentOcean == true) {//setting any adjacent tiles to ocean tiles
 					col.gameObject.GetComponent<tileHandler> ().adjacentOcean = true;
 					col.gameObject.GetComponent<tileHandler> ().sr.sprite = generationManager.Instance.oceanTile;
 					col.gameObject.GetComponent<tileHandler> ().tileType = "Ocean";
@@ -221,25 +225,29 @@ public class tileHandler : MonoBehaviour {
 				}
 			}
 			if (col.gameObject.tag != "Player") {
-				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Sand") {//setting the adjacent tile to sand
+				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Sand") {//setting adjacent tile bounderies
 					if (tileType != "Sand") {
 						sr.sprite = generationManager.Instance.defaultDirt;
 						tileType = "Dirt";
 					}
 				}
 
-				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Snow") {//setting the adjacent tile to snow
+				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Snow") {//setting adjacent tile bounderies
 					if (tileType != "Snow") {
 						sr.sprite = generationManager.Instance.defaultStone;
 						tileType = "Stone";
 					}
 				}
 
-				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Mountain") {//setting the adjacent tile to mountain
+				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Mountain") {//setting adjacent tile bounderies
 					if (tileType != "Mountain") {
 						sr.sprite = generationManager.Instance.defaultStone;
 						tileType = "Stone";
 					}
+				}
+
+				if (col.gameObject.GetComponent<tileHandler> ().tileType == "Ocean") {//setting tiles adjacent to water to be harvestable
+					isNearWater = true;
 				}
 			}
 		}
